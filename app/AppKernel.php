@@ -16,12 +16,11 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
-            new FOS\RestBundle\FOSRestBundle(),
-            new AppBundle\AppBundle(),
-
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new ResminApiBundle\ResminApiBundle(),
+            new Osm\EasyRestBundle\OsmEasyRestBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

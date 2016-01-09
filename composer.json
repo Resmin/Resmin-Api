@@ -26,8 +26,8 @@
         "beberlei/DoctrineExtensions": "^1.0",
         "maknz/slack": "^1.7",
         "guzzlehttp/guzzle": "~6.0",
-        "friendsofsymfony/rest-bundle": "^1.7",
-        "jms/serializer-bundle": "^1.1"
+        "jms/serializer-bundle": "^1.1",
+        "osm/easy-rest-bundle": "~1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
