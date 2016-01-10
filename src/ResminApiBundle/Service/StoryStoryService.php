@@ -51,6 +51,7 @@ class StoryStoryService
 
         foreach ($results['data'] as $k => $result) {
             $results['data'][$k]['cover_img'] = json_decode($result['cover_img']);
+            $results['data'][$k]['comment_count'] = (int)($result['comment_count']);
         }
 
         return $results;

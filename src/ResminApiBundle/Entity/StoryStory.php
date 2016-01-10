@@ -131,7 +131,7 @@ class StoryStory
      *
      * @ORM\Column(name="comment_count", type="integer", nullable=true)
      */
-    private $comment_count;
+    private $comment_count = 0;
 
     /**
      * @var string
