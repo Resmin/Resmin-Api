@@ -66,7 +66,9 @@ class StoryStoryRepository extends EntityRepository
                 'story.question_id', 'story.question_meta_id', 'question_meta.text as question_meta_text'
             )->join('story.owner', 'owner')
             /*->leftJoin('story.question', 'question')*/
-            ->leftJoin('story.question_meta', 'question_meta');
+            ->leftJoin('story.question_meta', 'question_meta')
+            ->where('story.status = :status')
+            ->setParameter('status', 1);
 
         if ($visible_for !== NULL) {
             $query->andWhere('story.visible_for = :visible_for')
