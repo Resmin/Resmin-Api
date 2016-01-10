@@ -68,7 +68,9 @@ class StoryStoryRepository extends EntityRepository
             /*->leftJoin('story.question', 'question')*/
             ->leftJoin('story.question_meta', 'question_meta')
             ->where('story.status = :status')
-            ->setParameter('status', 1);
+            ->setParameter('status', 1)
+            ->andWhere('story.is_nsfw = :is_nsfw')
+            ->setParameter('is_nsfw', false);
 
         if ($visible_for !== NULL) {
             $query->andWhere('story.visible_for = :visible_for')
