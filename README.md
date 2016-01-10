@@ -7,9 +7,7 @@ Install dependencies
 
     composer install --prefer-dist
     
-Configure your parameters such as database    
-
-    edit "app/config/parameters.yml" file
+Your parameters such as database, will be asked when you do composer install.
     
 Run with built-in web server
      
