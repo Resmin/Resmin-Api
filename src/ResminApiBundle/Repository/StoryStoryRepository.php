@@ -14,6 +14,12 @@ use Doctrine\ORM\EntityRepository;
 class StoryStoryRepository extends EntityRepository
 {
 
+    /**
+     * @param integer $offset
+     * @param integer $limit
+     * @param integer $visible_for
+     * @return array
+     */
     public function findAllStories($offset, $limit, $visible_for)
     {
 
@@ -33,6 +39,10 @@ class StoryStoryRepository extends EntityRepository
         ];
     }
 
+    /**
+     * @param integer $visible_for
+     * @return integer
+     */
     public function countResultsQuery($visible_for)
     {
         $query = $this->baseQuery($visible_for);
@@ -41,6 +51,10 @@ class StoryStoryRepository extends EntityRepository
         return $query->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * @param integer $visible_for
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function baseQuery($visible_for)
     {
         $query = $this->createQueryBuilder('story')

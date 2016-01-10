@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class StoryController extends BaseController
 {
     /**
-     * @Route("/")
+     * @Route("")
      * @Method("GET")
      * @ApiDoc(
      *  section="Story",
