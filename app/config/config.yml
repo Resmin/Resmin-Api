@@ -69,3 +69,8 @@ swiftmailer:
 
 
 osm_easy_rest: ~
+
+nelmio_api_doc:
+  sandbox:
+    request_format:
+      method: accept_header
