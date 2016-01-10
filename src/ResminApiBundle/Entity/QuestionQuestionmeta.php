@@ -26,7 +26,7 @@ class QuestionQuestionmeta
      *
      * @ORM\Column(name="owner_id", type="integer", nullable=true)
      */
-    private $ownerId;
+    private $owner_id;
 
     /**
      * @var string
@@ -40,42 +40,42 @@ class QuestionQuestionmeta
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    private $createdAt;
+    private $created_at;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
-    private $updatedAt;
+    private $updated_at;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_featured", type="boolean", nullable=false)
      */
-    private $isFeatured;
+    private $is_featured;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_sponsored", type="boolean", nullable=false)
      */
-    private $isSponsored;
+    private $is_sponsored;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="answer_count", type="integer", nullable=false)
      */
-    private $answerCount;
+    private $answer_count;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="follower_count", type="integer", nullable=false)
      */
-    private $followerCount;
+    private $follower_count;
 
     /**
      * @var integer
@@ -89,22 +89,21 @@ class QuestionQuestionmeta
      *
      * @ORM\Column(name="cover_answer_id", type="integer", nullable=true)
      */
-    private $coverAnswerId;
+    private $cover_answer_id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="latest_answer_id", type="integer", nullable=true)
      */
-    private $latestAnswerId;
+    private $latest_answer_id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="redirected_to_id", type="integer", nullable=true)
      */
-    private $redirectedToId;
-
+    private $redirected_to_id;
 
 
     /**
@@ -118,6 +117,16 @@ class QuestionQuestionmeta
     }
 
     /**
+     * Get ownerId
+     *
+     * @return integer
+     */
+    public function getOwnerId()
+    {
+        return $this->owner_id;
+    }
+
+    /**
      * Set ownerId
      *
      * @param integer $ownerId
@@ -126,19 +135,19 @@ class QuestionQuestionmeta
      */
     public function setOwnerId($ownerId)
     {
-        $this->ownerId = $ownerId;
+        $this->owner_id = $ownerId;
 
         return $this;
     }
 
     /**
-     * Get ownerId
+     * Get text
      *
-     * @return integer
+     * @return string
      */
-    public function getOwnerId()
+    public function getText()
     {
-        return $this->ownerId;
+        return $this->text;
     }
 
     /**
@@ -156,13 +165,13 @@ class QuestionQuestionmeta
     }
 
     /**
-     * Get text
+     * Get createdAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getText()
+    public function getCreatedAt()
     {
-        return $this->text;
+        return $this->created_at;
     }
 
     /**
@@ -174,31 +183,7 @@ class QuestionQuestionmeta
      */
     public function setCreatedAt($createdAt)
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return QuestionQuestionmeta
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
+        $this->created_at = $createdAt;
 
         return $this;
     }
@@ -210,19 +195,19 @@ class QuestionQuestionmeta
      */
     public function getUpdatedAt()
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
     /**
-     * Set isFeatured
+     * Set updatedAt
      *
-     * @param boolean $isFeatured
+     * @param \DateTime $updatedAt
      *
      * @return QuestionQuestionmeta
      */
-    public function setIsFeatured($isFeatured)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->isFeatured = $isFeatured;
+        $this->updated_at = $updatedAt;
 
         return $this;
     }
@@ -234,19 +219,19 @@ class QuestionQuestionmeta
      */
     public function getIsFeatured()
     {
-        return $this->isFeatured;
+        return $this->is_featured;
     }
 
     /**
-     * Set isSponsored
+     * Set isFeatured
      *
-     * @param boolean $isSponsored
+     * @param boolean $isFeatured
      *
      * @return QuestionQuestionmeta
      */
-    public function setIsSponsored($isSponsored)
+    public function setIsFeatured($isFeatured)
     {
-        $this->isSponsored = $isSponsored;
+        $this->is_featured = $isFeatured;
 
         return $this;
     }
@@ -258,19 +243,19 @@ class QuestionQuestionmeta
      */
     public function getIsSponsored()
     {
-        return $this->isSponsored;
+        return $this->is_sponsored;
     }
 
     /**
-     * Set answerCount
+     * Set isSponsored
      *
-     * @param integer $answerCount
+     * @param boolean $isSponsored
      *
      * @return QuestionQuestionmeta
      */
-    public function setAnswerCount($answerCount)
+    public function setIsSponsored($isSponsored)
     {
-        $this->answerCount = $answerCount;
+        $this->is_sponsored = $isSponsored;
 
         return $this;
     }
@@ -282,19 +267,19 @@ class QuestionQuestionmeta
      */
     public function getAnswerCount()
     {
-        return $this->answerCount;
+        return $this->answer_count;
     }
 
     /**
-     * Set followerCount
+     * Set answerCount
      *
-     * @param integer $followerCount
+     * @param integer $answerCount
      *
      * @return QuestionQuestionmeta
      */
-    public function setFollowerCount($followerCount)
+    public function setAnswerCount($answerCount)
     {
-        $this->followerCount = $followerCount;
+        $this->answer_count = $answerCount;
 
         return $this;
     }
@@ -306,7 +291,31 @@ class QuestionQuestionmeta
      */
     public function getFollowerCount()
     {
-        return $this->followerCount;
+        return $this->follower_count;
+    }
+
+    /**
+     * Set followerCount
+     *
+     * @param integer $followerCount
+     *
+     * @return QuestionQuestionmeta
+     */
+    public function setFollowerCount($followerCount)
+    {
+        $this->follower_count = $followerCount;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -324,13 +333,13 @@ class QuestionQuestionmeta
     }
 
     /**
-     * Get status
+     * Get coverAnswerId
      *
      * @return integer
      */
-    public function getStatus()
+    public function getCoverAnswerId()
     {
-        return $this->status;
+        return $this->cover_answer_id;
     }
 
     /**
@@ -342,31 +351,7 @@ class QuestionQuestionmeta
      */
     public function setCoverAnswerId($coverAnswerId)
     {
-        $this->coverAnswerId = $coverAnswerId;
-
-        return $this;
-    }
-
-    /**
-     * Get coverAnswerId
-     *
-     * @return integer
-     */
-    public function getCoverAnswerId()
-    {
-        return $this->coverAnswerId;
-    }
-
-    /**
-     * Set latestAnswerId
-     *
-     * @param integer $latestAnswerId
-     *
-     * @return QuestionQuestionmeta
-     */
-    public function setLatestAnswerId($latestAnswerId)
-    {
-        $this->latestAnswerId = $latestAnswerId;
+        $this->cover_answer_id = $coverAnswerId;
 
         return $this;
     }
@@ -378,19 +363,19 @@ class QuestionQuestionmeta
      */
     public function getLatestAnswerId()
     {
-        return $this->latestAnswerId;
+        return $this->latest_answer_id;
     }
 
     /**
-     * Set redirectedToId
+     * Set latestAnswerId
      *
-     * @param integer $redirectedToId
+     * @param integer $latestAnswerId
      *
      * @return QuestionQuestionmeta
      */
-    public function setRedirectedToId($redirectedToId)
+    public function setLatestAnswerId($latestAnswerId)
     {
-        $this->redirectedToId = $redirectedToId;
+        $this->latest_answer_id = $latestAnswerId;
 
         return $this;
     }
@@ -402,6 +387,20 @@ class QuestionQuestionmeta
      */
     public function getRedirectedToId()
     {
-        return $this->redirectedToId;
+        return $this->redirected_to_id;
+    }
+
+    /**
+     * Set redirectedToId
+     *
+     * @param integer $redirectedToId
+     *
+     * @return QuestionQuestionmeta
+     */
+    public function setRedirectedToId($redirectedToId)
+    {
+        $this->redirected_to_id = $redirectedToId;
+
+        return $this;
     }
 }

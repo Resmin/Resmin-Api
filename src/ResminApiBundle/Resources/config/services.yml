@@ -1,2 +1,18 @@
+parameters:
+  default_query_limit: 25
+  maximum_query_limit: 100
+
 services:
 
+  resmin_api.repository.story.story_repository:
+        class: ResminApiBundle\Repository\StoryStoryRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+          - ResminApiBundle:StoryStory
+
+
+
+  resmin_api.service.story.story_service:
+          class: ResminApiBundle\Service\StoryStoryService
+          arguments: ['@resmin_api.repository.story.story_repository','@doctrine.orm.entity_manager']

@@ -33,14 +33,14 @@ class AuthUser
      *
      * @ORM\Column(name="last_login", type="datetime", nullable=false)
      */
-    private $lastLogin;
+    private $last_login;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_superuser", type="boolean", nullable=false)
      */
-    private $isSuperuser;
+    private $is_superuser;
 
     /**
      * @var string
@@ -54,14 +54,14 @@ class AuthUser
      *
      * @ORM\Column(name="first_name", type="string", length=30, nullable=false)
      */
-    private $firstName;
+    private $first_name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=30, nullable=false)
      */
-    private $lastName;
+    private $last_name;
 
     /**
      * @var string
@@ -75,21 +75,21 @@ class AuthUser
      *
      * @ORM\Column(name="is_staff", type="boolean", nullable=false)
      */
-    private $isStaff;
+    private $is_staff;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_active", type="boolean", nullable=false)
      */
-    private $isActive;
+    private $is_active;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_joined", type="datetime", nullable=false)
      */
-    private $dateJoined;
+    private $date_joined;
 
 
 
@@ -101,6 +101,16 @@ class AuthUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
@@ -118,13 +128,13 @@ class AuthUser
     }
 
     /**
-     * Get password
+     * Get lastLogin
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getPassword()
+    public function getLastLogin()
     {
-        return $this->password;
+        return $this->last_login;
     }
 
     /**
@@ -136,31 +146,7 @@ class AuthUser
      */
     public function setLastLogin($lastLogin)
     {
-        $this->lastLogin = $lastLogin;
-
-        return $this;
-    }
-
-    /**
-     * Get lastLogin
-     *
-     * @return \DateTime
-     */
-    public function getLastLogin()
-    {
-        return $this->lastLogin;
-    }
-
-    /**
-     * Set isSuperuser
-     *
-     * @param boolean $isSuperuser
-     *
-     * @return AuthUser
-     */
-    public function setIsSuperuser($isSuperuser)
-    {
-        $this->isSuperuser = $isSuperuser;
+        $this->last_login = $lastLogin;
 
         return $this;
     }
@@ -172,7 +158,31 @@ class AuthUser
      */
     public function getIsSuperuser()
     {
-        return $this->isSuperuser;
+        return $this->is_superuser;
+    }
+
+    /**
+     * Set isSuperuser
+     *
+     * @param boolean $isSuperuser
+     *
+     * @return AuthUser
+     */
+    public function setIsSuperuser($isSuperuser)
+    {
+        $this->is_superuser = $isSuperuser;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**
@@ -190,13 +200,13 @@ class AuthUser
     }
 
     /**
-     * Get username
+     * Get firstName
      *
      * @return string
      */
-    public function getUsername()
+    public function getFirstName()
     {
-        return $this->username;
+        return $this->first_name;
     }
 
     /**
@@ -208,31 +218,7 @@ class AuthUser
      */
     public function setFirstName($firstName)
     {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     *
-     * @return AuthUser
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
+        $this->first_name = $firstName;
 
         return $this;
     }
@@ -244,7 +230,31 @@ class AuthUser
      */
     public function getLastName()
     {
-        return $this->lastName;
+        return $this->last_name;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return AuthUser
+     */
+    public function setLastName($lastName)
+    {
+        $this->last_name = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**
@@ -262,13 +272,13 @@ class AuthUser
     }
 
     /**
-     * Get email
+     * Get isStaff
      *
-     * @return string
+     * @return boolean
      */
-    public function getEmail()
+    public function getIsStaff()
     {
-        return $this->email;
+        return $this->is_staff;
     }
 
     /**
@@ -280,31 +290,7 @@ class AuthUser
      */
     public function setIsStaff($isStaff)
     {
-        $this->isStaff = $isStaff;
-
-        return $this;
-    }
-
-    /**
-     * Get isStaff
-     *
-     * @return boolean
-     */
-    public function getIsStaff()
-    {
-        return $this->isStaff;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return AuthUser
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
+        $this->is_staff = $isStaff;
 
         return $this;
     }
@@ -316,19 +302,19 @@ class AuthUser
      */
     public function getIsActive()
     {
-        return $this->isActive;
+        return $this->is_active;
     }
 
     /**
-     * Set dateJoined
+     * Set isActive
      *
-     * @param \DateTime $dateJoined
+     * @param boolean $isActive
      *
      * @return AuthUser
      */
-    public function setDateJoined($dateJoined)
+    public function setIsActive($isActive)
     {
-        $this->dateJoined = $dateJoined;
+        $this->is_active = $isActive;
 
         return $this;
     }
@@ -340,6 +326,20 @@ class AuthUser
      */
     public function getDateJoined()
     {
-        return $this->dateJoined;
+        return $this->date_joined;
+    }
+
+    /**
+     * Set dateJoined
+     *
+     * @param \DateTime $dateJoined
+     *
+     * @return AuthUser
+     */
+    public function setDateJoined($dateJoined)
+    {
+        $this->date_joined = $dateJoined;
+
+        return $this;
     }
 }

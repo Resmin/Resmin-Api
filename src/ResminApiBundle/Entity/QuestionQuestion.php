@@ -26,42 +26,42 @@ class QuestionQuestion
      *
      * @ORM\Column(name="questioner_id", type="integer", nullable=true)
      */
-    private $questionerId;
+    private $questioner_id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="meta_id", type="integer", nullable=false)
      */
-    private $metaId;
+    private $meta_id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="questionee_id", type="integer", nullable=false)
      */
-    private $questioneeId;
+    private $questionee_id;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_anonymouse", type="boolean", nullable=false)
      */
-    private $isAnonymouse;
+    private $is_anonymouse;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="answer_id", type="integer", nullable=true)
      */
-    private $answerId;
+    private $answer_id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    private $createdAt;
+    private $created_at;
 
     /**
      * @var integer
@@ -69,7 +69,6 @@ class QuestionQuestion
      * @ORM\Column(name="status", type="smallint", nullable=false)
      */
     private $status;
-
 
 
     /**
@@ -83,6 +82,16 @@ class QuestionQuestion
     }
 
     /**
+     * Get questionerId
+     *
+     * @return integer
+     */
+    public function getQuestionerId()
+    {
+        return $this->questioner_id;
+    }
+
+    /**
      * Set questionerId
      *
      * @param integer $questionerId
@@ -91,31 +100,7 @@ class QuestionQuestion
      */
     public function setQuestionerId($questionerId)
     {
-        $this->questionerId = $questionerId;
-
-        return $this;
-    }
-
-    /**
-     * Get questionerId
-     *
-     * @return integer
-     */
-    public function getQuestionerId()
-    {
-        return $this->questionerId;
-    }
-
-    /**
-     * Set metaId
-     *
-     * @param integer $metaId
-     *
-     * @return QuestionQuestion
-     */
-    public function setMetaId($metaId)
-    {
-        $this->metaId = $metaId;
+        $this->questioner_id = $questionerId;
 
         return $this;
     }
@@ -127,19 +112,19 @@ class QuestionQuestion
      */
     public function getMetaId()
     {
-        return $this->metaId;
+        return $this->meta_id;
     }
 
     /**
-     * Set questioneeId
+     * Set metaId
      *
-     * @param integer $questioneeId
+     * @param integer $metaId
      *
      * @return QuestionQuestion
      */
-    public function setQuestioneeId($questioneeId)
+    public function setMetaId($metaId)
     {
-        $this->questioneeId = $questioneeId;
+        $this->meta_id = $metaId;
 
         return $this;
     }
@@ -151,19 +136,19 @@ class QuestionQuestion
      */
     public function getQuestioneeId()
     {
-        return $this->questioneeId;
+        return $this->questionee_id;
     }
 
     /**
-     * Set isAnonymouse
+     * Set questioneeId
      *
-     * @param boolean $isAnonymouse
+     * @param integer $questioneeId
      *
      * @return QuestionQuestion
      */
-    public function setIsAnonymouse($isAnonymouse)
+    public function setQuestioneeId($questioneeId)
     {
-        $this->isAnonymouse = $isAnonymouse;
+        $this->questionee_id = $questioneeId;
 
         return $this;
     }
@@ -175,19 +160,19 @@ class QuestionQuestion
      */
     public function getIsAnonymouse()
     {
-        return $this->isAnonymouse;
+        return $this->is_anonymouse;
     }
 
     /**
-     * Set answerId
+     * Set isAnonymouse
      *
-     * @param integer $answerId
+     * @param boolean $isAnonymouse
      *
      * @return QuestionQuestion
      */
-    public function setAnswerId($answerId)
+    public function setIsAnonymouse($isAnonymouse)
     {
-        $this->answerId = $answerId;
+        $this->is_anonymouse = $isAnonymouse;
 
         return $this;
     }
@@ -199,19 +184,19 @@ class QuestionQuestion
      */
     public function getAnswerId()
     {
-        return $this->answerId;
+        return $this->answer_id;
     }
 
     /**
-     * Set createdAt
+     * Set answerId
      *
-     * @param \DateTime $createdAt
+     * @param integer $answerId
      *
      * @return QuestionQuestion
      */
-    public function setCreatedAt($createdAt)
+    public function setAnswerId($answerId)
     {
-        $this->createdAt = $createdAt;
+        $this->answer_id = $answerId;
 
         return $this;
     }
@@ -223,7 +208,31 @@ class QuestionQuestion
      */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->created_at;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return QuestionQuestion
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -238,15 +247,5 @@ class QuestionQuestion
         $this->status = $status;
 
         return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return integer
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 }

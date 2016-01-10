@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * StoryStory
  *
  * @ORM\Table(name="story_story", indexes={@ORM\Index(name="story_story_cb902d83", columns={"owner_id"}), @ORM\Index(name="story_story_25110688", columns={"question_id"}), @ORM\Index(name="story_story_question_meta_id", columns={"question_meta_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ResminApiBundle\Repository\StoryStoryRepository")
  */
 class StoryStory
 {
@@ -26,21 +26,42 @@ class StoryStory
      *
      * @ORM\Column(name="owner_id", type="integer", nullable=false)
      */
-    private $ownerId;
+    private $owner_id;
+
+    /**
+     * @var \AuthUser
+     *
+     * @ORM\ManyToOne(targetEntity="AuthUser")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * })
+     */
+    private $owner;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    private $createdAt;
+    private $created_at;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="question_id", type="integer", nullable=true)
      */
-    private $questionId;
+    private $question_id;
+
+
+    /**
+     * @var \AuthUser
+     *
+     * @ORM\ManyToOne(targetEntity="QuestionQuestion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="question_id", referencedColumnName="id")
+     * })
+     */
+    private $question;
 
     /**
      * @var string
@@ -61,28 +82,28 @@ class StoryStory
      *
      * @ORM\Column(name="is_nsfw", type="boolean", nullable=false)
      */
-    private $isNsfw;
+    private $is_nsfw;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_anonymouse", type="boolean", nullable=false)
      */
-    private $isAnonymouse;
+    private $is_anonymouse;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="like_count", type="integer", nullable=false)
      */
-    private $likeCount;
+    private $like_count;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="slot_count", type="integer", nullable=true)
      */
-    private $slotCount;
+    private $slot_count;
 
     /**
      * @var integer
@@ -96,42 +117,53 @@ class StoryStory
      *
      * @ORM\Column(name="visible_for", type="smallint", nullable=false)
      */
-    private $visibleFor;
+    private $visible_for;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_featured", type="boolean", nullable=false)
      */
-    private $isFeatured;
+    private $is_featured;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="comment_count", type="integer", nullable=true)
      */
-    private $commentCount;
+    private $comment_count;
 
     /**
      * @var string
      *
      * @ORM\Column(name="cover_img", type="text", nullable=true)
      */
-    private $coverImg;
+    private $cover_img;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_playble", type="boolean", nullable=false)
      */
-    private $isPlayble;
+    private $is_playble;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="question_meta_id", type="integer", nullable=false)
      */
-    private $questionMetaId;
+    private $question_meta_id;
+
+
+    /**
+     * @var \AuthUser
+     *
+     * @ORM\ManyToOne(targetEntity="QuestionQuestionmeta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="question_meta_id", referencedColumnName="id")
+     * })
+     */
+    private $question_meta;
 
 
 
@@ -146,6 +178,16 @@ class StoryStory
     }
 
     /**
+     * Get ownerId
+     *
+     * @return integer
+     */
+    public function getOwnerId()
+    {
+        return $this->owner_id;
+    }
+
+    /**
      * Set ownerId
      *
      * @param integer $ownerId
@@ -154,31 +196,7 @@ class StoryStory
      */
     public function setOwnerId($ownerId)
     {
-        $this->ownerId = $ownerId;
-
-        return $this;
-    }
-
-    /**
-     * Get ownerId
-     *
-     * @return integer
-     */
-    public function getOwnerId()
-    {
-        return $this->ownerId;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return StoryStory
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
+        $this->owner_id = $ownerId;
 
         return $this;
     }
@@ -190,19 +208,19 @@ class StoryStory
      */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     /**
-     * Set questionId
+     * Set createdAt
      *
-     * @param integer $questionId
+     * @param \DateTime $createdAt
      *
      * @return StoryStory
      */
-    public function setQuestionId($questionId)
+    public function setCreatedAt($createdAt)
     {
-        $this->questionId = $questionId;
+        $this->created_at = $createdAt;
 
         return $this;
     }
@@ -214,7 +232,31 @@ class StoryStory
      */
     public function getQuestionId()
     {
-        return $this->questionId;
+        return $this->question_id;
+    }
+
+    /**
+     * Set questionId
+     *
+     * @param integer $questionId
+     *
+     * @return StoryStory
+     */
+    public function setQuestionId($questionId)
+    {
+        $this->question_id = $questionId;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -232,13 +274,13 @@ class StoryStory
     }
 
     /**
-     * Get title
+     * Get description
      *
      * @return string
      */
-    public function getTitle()
+    public function getDescription()
     {
-        return $this->title;
+        return $this->description;
     }
 
     /**
@@ -256,13 +298,13 @@ class StoryStory
     }
 
     /**
-     * Get description
+     * Get isNsfw
      *
-     * @return string
+     * @return boolean
      */
-    public function getDescription()
+    public function getIsNsfw()
     {
-        return $this->description;
+        return $this->is_nsfw;
     }
 
     /**
@@ -274,31 +316,7 @@ class StoryStory
      */
     public function setIsNsfw($isNsfw)
     {
-        $this->isNsfw = $isNsfw;
-
-        return $this;
-    }
-
-    /**
-     * Get isNsfw
-     *
-     * @return boolean
-     */
-    public function getIsNsfw()
-    {
-        return $this->isNsfw;
-    }
-
-    /**
-     * Set isAnonymouse
-     *
-     * @param boolean $isAnonymouse
-     *
-     * @return StoryStory
-     */
-    public function setIsAnonymouse($isAnonymouse)
-    {
-        $this->isAnonymouse = $isAnonymouse;
+        $this->is_nsfw = $isNsfw;
 
         return $this;
     }
@@ -310,19 +328,19 @@ class StoryStory
      */
     public function getIsAnonymouse()
     {
-        return $this->isAnonymouse;
+        return $this->is_anonymouse;
     }
 
     /**
-     * Set likeCount
+     * Set isAnonymouse
      *
-     * @param integer $likeCount
+     * @param boolean $isAnonymouse
      *
      * @return StoryStory
      */
-    public function setLikeCount($likeCount)
+    public function setIsAnonymouse($isAnonymouse)
     {
-        $this->likeCount = $likeCount;
+        $this->is_anonymouse = $isAnonymouse;
 
         return $this;
     }
@@ -334,19 +352,19 @@ class StoryStory
      */
     public function getLikeCount()
     {
-        return $this->likeCount;
+        return $this->like_count;
     }
 
     /**
-     * Set slotCount
+     * Set likeCount
      *
-     * @param integer $slotCount
+     * @param integer $likeCount
      *
      * @return StoryStory
      */
-    public function setSlotCount($slotCount)
+    public function setLikeCount($likeCount)
     {
-        $this->slotCount = $slotCount;
+        $this->like_count = $likeCount;
 
         return $this;
     }
@@ -358,7 +376,31 @@ class StoryStory
      */
     public function getSlotCount()
     {
-        return $this->slotCount;
+        return $this->slot_count;
+    }
+
+    /**
+     * Set slotCount
+     *
+     * @param integer $slotCount
+     *
+     * @return StoryStory
+     */
+    public function setSlotCount($slotCount)
+    {
+        $this->slot_count = $slotCount;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -376,13 +418,13 @@ class StoryStory
     }
 
     /**
-     * Get status
+     * Get visibleFor
      *
      * @return integer
      */
-    public function getStatus()
+    public function getVisibleFor()
     {
-        return $this->status;
+        return $this->visible_for;
     }
 
     /**
@@ -394,31 +436,7 @@ class StoryStory
      */
     public function setVisibleFor($visibleFor)
     {
-        $this->visibleFor = $visibleFor;
-
-        return $this;
-    }
-
-    /**
-     * Get visibleFor
-     *
-     * @return integer
-     */
-    public function getVisibleFor()
-    {
-        return $this->visibleFor;
-    }
-
-    /**
-     * Set isFeatured
-     *
-     * @param boolean $isFeatured
-     *
-     * @return StoryStory
-     */
-    public function setIsFeatured($isFeatured)
-    {
-        $this->isFeatured = $isFeatured;
+        $this->visible_for = $visibleFor;
 
         return $this;
     }
@@ -430,19 +448,19 @@ class StoryStory
      */
     public function getIsFeatured()
     {
-        return $this->isFeatured;
+        return $this->is_featured;
     }
 
     /**
-     * Set commentCount
+     * Set isFeatured
      *
-     * @param integer $commentCount
+     * @param boolean $isFeatured
      *
      * @return StoryStory
      */
-    public function setCommentCount($commentCount)
+    public function setIsFeatured($isFeatured)
     {
-        $this->commentCount = $commentCount;
+        $this->is_featured = $isFeatured;
 
         return $this;
     }
@@ -454,19 +472,19 @@ class StoryStory
      */
     public function getCommentCount()
     {
-        return $this->commentCount;
+        return $this->comment_count;
     }
 
     /**
-     * Set coverImg
+     * Set commentCount
      *
-     * @param string $coverImg
+     * @param integer $commentCount
      *
      * @return StoryStory
      */
-    public function setCoverImg($coverImg)
+    public function setCommentCount($commentCount)
     {
-        $this->coverImg = $coverImg;
+        $this->comment_count = $commentCount;
 
         return $this;
     }
@@ -478,19 +496,19 @@ class StoryStory
      */
     public function getCoverImg()
     {
-        return $this->coverImg;
+        return $this->cover_img;
     }
 
     /**
-     * Set isPlayble
+     * Set coverImg
      *
-     * @param boolean $isPlayble
+     * @param string $coverImg
      *
      * @return StoryStory
      */
-    public function setIsPlayble($isPlayble)
+    public function setCoverImg($coverImg)
     {
-        $this->isPlayble = $isPlayble;
+        $this->cover_img = $coverImg;
 
         return $this;
     }
@@ -502,19 +520,19 @@ class StoryStory
      */
     public function getIsPlayble()
     {
-        return $this->isPlayble;
+        return $this->is_playble;
     }
 
     /**
-     * Set questionMetaId
+     * Set isPlayble
      *
-     * @param integer $questionMetaId
+     * @param boolean $isPlayble
      *
      * @return StoryStory
      */
-    public function setQuestionMetaId($questionMetaId)
+    public function setIsPlayble($isPlayble)
     {
-        $this->questionMetaId = $questionMetaId;
+        $this->is_playble = $isPlayble;
 
         return $this;
     }
@@ -526,6 +544,68 @@ class StoryStory
      */
     public function getQuestionMetaId()
     {
-        return $this->questionMetaId;
+        return $this->question_meta_id;
+    }
+
+    /**
+     * Set questionMetaId
+     *
+     * @param integer $questionMetaId
+     *
+     * @return StoryStory
+     */
+    public function setQuestionMetaId($questionMetaId)
+    {
+        $this->question_meta_id = $questionMetaId;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \ResminApiBundle\Entity\AuthUser
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \ResminApiBundle\Entity\AuthUser $owner
+     *
+     * @return StoryStory
+     */
+    public function setOwner(\ResminApiBundle\Entity\AuthUser $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get question
+     *
+     * @return \ResminApiBundle\Entity\QuestionQuestion
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+
+    /**
+     * Set question
+     *
+     * @param \ResminApiBundle\Entity\QuestionQuestion $question
+     *
+     * @return StoryStory
+     */
+    public function setQuestion(\ResminApiBundle\Entity\QuestionQuestion $question = null)
+    {
+        $this->question = $question;
+
+        return $this;
     }
 }
