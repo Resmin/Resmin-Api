@@ -29,7 +29,6 @@ class StoryListingTest extends BaseTestCase
         $item = $response['data'][0];
 
         $this->assertArrayHasKey('id', $item);
-        $this->assertArrayHasKey('title', $item);
         $this->assertArrayHasKey('description', $item);
         $this->assertArrayHasKey('is_nsfw', $item);
         $this->assertArrayHasKey('is_featured', $item);
@@ -38,10 +37,13 @@ class StoryListingTest extends BaseTestCase
         $this->assertArrayHasKey('comment_count', $item);
         $this->assertArrayHasKey('cover_img', $item);
         $this->assertArrayHasKey('status', $item);
-        $this->assertArrayHasKey('owner_username', $item);
+        $this->assertArrayHasKey('owner', $item);
+        $this->assertArrayHasKey('id', $item['owner']);
+        $this->assertArrayHasKey('username', $item['owner']);
         $this->assertArrayHasKey('question_id', $item);
-        $this->assertArrayHasKey('question_meta_id', $item);
-        $this->assertArrayHasKey('question_meta_text', $item);
+        $this->assertArrayHasKey('question_meta', $item);
+        $this->assertArrayHasKey('id', $item['question_meta']);
+        $this->assertArrayHasKey('text', $item['question_meta']);
         $this->assertArrayHasKey('created_at', $item);
     }
 
