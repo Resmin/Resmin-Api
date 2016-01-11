@@ -40,22 +40,21 @@ class StoryImage
      *
      * @ORM\Column(name="taken_at", type="datetime", nullable=true)
      */
-    private $takenAt;
+    private $taken_at;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_playble", type="boolean", nullable=false)
      */
-    private $isPlayble;
+    private $is_playble;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mime_type", type="string", length=64, nullable=false)
      */
-    private $mimeType;
-
+    private $mime_type;
 
 
     /**
@@ -66,6 +65,16 @@ class StoryImage
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get md5sum
+     *
+     * @return string
+     */
+    public function getMd5sum()
+    {
+        return $this->md5sum;
     }
 
     /**
@@ -83,13 +92,13 @@ class StoryImage
     }
 
     /**
-     * Get md5sum
+     * Get image
      *
      * @return string
      */
-    public function getMd5sum()
+    public function getImage()
     {
-        return $this->md5sum;
+        return $this->image;
     }
 
     /**
@@ -107,13 +116,13 @@ class StoryImage
     }
 
     /**
-     * Get image
+     * Get takenAt
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getImage()
+    public function getTakenAt()
     {
-        return $this->image;
+        return $this->taken_at;
     }
 
     /**
@@ -125,31 +134,7 @@ class StoryImage
      */
     public function setTakenAt($takenAt)
     {
-        $this->takenAt = $takenAt;
-
-        return $this;
-    }
-
-    /**
-     * Get takenAt
-     *
-     * @return \DateTime
-     */
-    public function getTakenAt()
-    {
-        return $this->takenAt;
-    }
-
-    /**
-     * Set isPlayble
-     *
-     * @param boolean $isPlayble
-     *
-     * @return StoryImage
-     */
-    public function setIsPlayble($isPlayble)
-    {
-        $this->isPlayble = $isPlayble;
+        $this->taken_at = $takenAt;
 
         return $this;
     }
@@ -161,19 +146,19 @@ class StoryImage
      */
     public function getIsPlayble()
     {
-        return $this->isPlayble;
+        return $this->is_playble;
     }
 
     /**
-     * Set mimeType
+     * Set isPlayble
      *
-     * @param string $mimeType
+     * @param boolean $isPlayble
      *
      * @return StoryImage
      */
-    public function setMimeType($mimeType)
+    public function setIsPlayble($isPlayble)
     {
-        $this->mimeType = $mimeType;
+        $this->is_playble = $isPlayble;
 
         return $this;
     }
@@ -185,6 +170,20 @@ class StoryImage
      */
     public function getMimeType()
     {
-        return $this->mimeType;
+        return $this->mime_type;
+    }
+
+    /**
+     * Set mimeType
+     *
+     * @param string $mimeType
+     *
+     * @return StoryImage
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mime_type = $mimeType;
+
+        return $this;
     }
 }

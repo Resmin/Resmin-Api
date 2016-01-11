@@ -42,6 +42,7 @@ class StoryListingTest extends BaseTestCase
         $this->assertArrayHasKey('question_id', $item);
         $this->assertArrayHasKey('question_meta_id', $item);
         $this->assertArrayHasKey('question_meta_text', $item);
+        $this->assertArrayHasKey('created_at', $item);
     }
 
     /**
