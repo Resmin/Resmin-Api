@@ -1,5 +1,5 @@
 <?php
-namespace ResminApiBundle\Tests\Api\Article;
+namespace ResminApiBundle\Tests\Api\Story;
 
 use ResminApiBundle\Tests\Api\BaseTestCase;
 

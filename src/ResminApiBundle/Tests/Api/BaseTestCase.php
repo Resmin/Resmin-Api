@@ -1,9 +1,6 @@
 <?php
 namespace ResminApiBundle\Tests\Api;
 
-
-use Dugun\ApiBundle\Service\UnitTestService;
-use Dugun\ApiBundle\Service\UserService;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class BaseTestCase extends WebTestCase

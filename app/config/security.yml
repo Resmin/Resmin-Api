@@ -4,8 +4,15 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        access_token:
+            id: resmin_api.security.accesstoken_userprovider
+
+    encoders:
+        ResminApiBundle\Entity\AuthUser:
+            algorithm: pbkdf2_sha256
+            encode_as_base64: true
+            iterations: 12000
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -13,12 +20,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+        secure_api:
+          pattern:  ^/
+          stateless: true
+          anonymous: true
+          simple_preauth:
+            authenticator: resmin_api.security.accesstoken_authenticator
+          provider: access_token
