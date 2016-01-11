@@ -3,6 +3,14 @@ parameters:
   maximum_query_limit: 100
 
 services:
+  kernel.listener.access_denied_exception_listener:
+        class:     ResminApiBundle\Security\AccessDeniedListener
+        arguments: ['%twig.exception_listener.controller%', '@logger']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+            - { name: monolog.logger, channel: request }
+            - { name: kernel.event_subscriber }
+
 
   resmin_api.repository.story.story_repository:
         class: ResminApiBundle\Repository\StoryStoryRepository
