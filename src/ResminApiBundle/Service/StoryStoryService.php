@@ -12,6 +12,7 @@ namespace ResminApiBundle\Service;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use ResminApiBundle\Repository\CommentCommentRepository;
+use ResminApiBundle\Repository\StorySlotRepository;
 use ResminApiBundle\Repository\StoryStoryRepository;
 
 class StoryStoryService
@@ -29,18 +30,24 @@ class StoryStoryService
      * @var CommentCommentRepository
      */
     private $commentCommentRepository;
+    /**
+     * @var StorySlotRepository
+     */
+    private $storySlotRepository;
 
     /**
      * StoryStoryService constructor.
      * @param EntityRepository $storyStoryRepository
      * @param EntityManager $entityManager
      * @param EntityRepository $commentCommentRepository
+     * @param EntityRepository $storySlotRepository
      */
-    public function __construct(EntityRepository $storyStoryRepository, EntityManager $entityManager, EntityRepository $commentCommentRepository)
+    public function __construct(EntityRepository $storyStoryRepository, EntityManager $entityManager, EntityRepository $commentCommentRepository, EntityRepository $storySlotRepository)
     {
         $this->storyStoryRepository = $storyStoryRepository;
         $this->entityManager = $entityManager;
         $this->commentCommentRepository = $commentCommentRepository;
+        $this->storySlotRepository = $storySlotRepository;
     }
 
     public function getAllStories($page, $limit, $listing_type)
@@ -75,7 +82,9 @@ class StoryStoryService
         $result['comment_count'] = (int)($result['comment_count']);
 
 
+        $result['slots'] = $this->storySlotRepository->findSlotsByStoryId($result['id']);
         $result['comments'] = $this->commentCommentRepository->findCommentsByStoryId($result['id']);
+
         return $result;
     }
 }
