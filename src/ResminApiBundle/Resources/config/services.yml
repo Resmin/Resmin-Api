@@ -25,8 +25,23 @@ services:
         arguments:
           - ResminApiBundle:StorySlot
 
+  resmin_api.repository.auth.user_repository:
+        class: ResminApiBundle\Repository\AuthUserRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+          - ResminApiBundle:AuthUser
+
 
 
   resmin_api.service.story.story_service:
           class: ResminApiBundle\Service\StoryStoryService
           arguments: ['@resmin_api.repository.story.story_repository','@doctrine.orm.entity_manager','@resmin_api.repository.comment.comment_repository','@resmin_api.repository.story.slot_repository']
+
+  resmin_api.service.auth_service:
+    class: ResminApiBundle\Service\AuthService
+    arguments: ['@resmin_api.repository.auth.user_repository']
+
+  resmin_api.service.access_token_service:
+    class: ResminApiBundle\Service\AccessTokenService
+    arguments: ['@doctrine_cache.providers.doctrine.orm.default_metadata_cache']

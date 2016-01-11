@@ -17,3 +17,12 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    password_salt: ChangeThisSalt
+    cache_provider: array_cache
+    redis_cache_host: localhost
+    redis_cache_port: 6379
+    redis_cache_keyspace: api
+    session_provider: redis_session
+    redis_session_host: localhost
+    redis_session_port: 6379
+    redis_session_keyspace: session

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AuthUser
  *
  * @ORM\Table(name="auth_user", uniqueConstraints={@ORM\UniqueConstraint(name="username", columns={"username"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ResminApiBundle\Repository\AuthUserRepository")
  */
 class AuthUser
 {

@@ -89,7 +89,7 @@ class StoryController extends BaseController
         $result = $service->getSingleStory($id);
 
         if (!$result) {
-            return $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
 
         return [
