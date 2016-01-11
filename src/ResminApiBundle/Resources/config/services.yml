@@ -52,4 +52,12 @@ services:
 
   resmin_api.service.access_token_service:
     class: ResminApiBundle\Service\AccessTokenService
-    arguments: ['@doctrine_cache.providers.doctrine.orm.default_metadata_cache']
+    arguments: ['@doctrine_cache.providers.redis_cache']
+
+  resmin_api.security.accesstoken_userprovider:
+        class: ResminApiBundle\Security\AccessTokenUserProvider
+        arguments: ['@resmin_api.service.auth_service']
+
+  resmin_api.security.accesstoken_authenticator:
+    class: ResminApiBundle\Security\AccessTokenUserAuthenticator
+    arguments: ['@resmin_api.service.access_token_service']

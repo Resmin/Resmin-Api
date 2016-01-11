@@ -25,6 +25,11 @@ class AuthService
         $this->authUserRepository = $authUserRepository;
     }
 
+    public function getUserByUsername($username)
+    {
+        return $this->authUserRepository->findOneByUsername($username);
+    }
+
     public function checkUsernamePassword($username, $password)
     {
         $user = $this->authUserRepository->findOneBy(['username' => $username]);

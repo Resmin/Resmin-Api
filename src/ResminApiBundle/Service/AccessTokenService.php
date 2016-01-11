@@ -22,6 +22,16 @@ class AccessTokenService
         $this->cache = $cache;
     }
 
+
+    /**
+     * @param $accessToken
+     * @return AccessToken
+     */
+    public function getUserByAccessToken($accessToken)
+    {
+        return $this->cache->fetch($accessToken);
+    }
+
     /**
      * @param $token
      * @param AuthUser $user

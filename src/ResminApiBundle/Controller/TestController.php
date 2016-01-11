@@ -21,7 +21,7 @@ class TestController extends BaseController
     /**
      * @Route("/access-token")
      * @Method({"GET"})
-     * @Security("has_role('ROLE_CUSTOMER_USER')")
+     * @Security("has_role('ROLE_USER')")
      * @ApiDoc(
      *  section="Test",
      *  description="Test access token is valid"
@@ -29,6 +29,10 @@ class TestController extends BaseController
      */
     public function checkAccessTokenAction(Request $request)
     {
-        return 'heyo';
+        return [
+            'data' => [
+                'message' => 'If you are seeing this message, you authenticated succesfully.'
+            ]
+        ];
     }
 }
