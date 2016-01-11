@@ -11,6 +11,7 @@ namespace ResminApiBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use ResminApiBundle\Repository\CommentCommentRepository;
 use ResminApiBundle\Repository\StoryStoryRepository;
 
 class StoryStoryService
@@ -24,16 +25,22 @@ class StoryStoryService
      * @var EntityManager
      */
     private $entityManager;
+    /**
+     * @var CommentCommentRepository
+     */
+    private $commentCommentRepository;
 
     /**
      * StoryStoryService constructor.
      * @param EntityRepository $storyStoryRepository
      * @param EntityManager $entityManager
+     * @param EntityRepository $commentCommentRepository
      */
-    public function __construct(EntityRepository $storyStoryRepository, EntityManager $entityManager)
+    public function __construct(EntityRepository $storyStoryRepository, EntityManager $entityManager, EntityRepository $commentCommentRepository)
     {
         $this->storyStoryRepository = $storyStoryRepository;
         $this->entityManager = $entityManager;
+        $this->commentCommentRepository = $commentCommentRepository;
     }
 
     public function getAllStories($page, $limit, $listing_type)
@@ -55,5 +62,20 @@ class StoryStoryService
         }
 
         return $results;
+    }
+
+    public function getSingleStory($id)
+    {
+        $result = $this->storyStoryRepository->findStoryById($id);
+        if (!$result) {
+            return null;
+        }
+
+        $result['cover_img'] = json_decode($result['cover_img']);
+        $result['comment_count'] = (int)($result['comment_count']);
+
+
+        $result['comments'] = $this->commentCommentRepository->findCommentsByStoryId($result['id']);
+        return $result;
     }
 }

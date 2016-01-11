@@ -9,6 +9,7 @@
 namespace ResminApiBundle\Repository;
 
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 
 class StoryStoryRepository extends EntityRepository
@@ -59,8 +60,8 @@ class StoryStoryRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('story')
             ->select(
-                'story.id', 'story.title', 'story.description', 'story.is_nsfw', 'story.is_featured', 'story.like_count', 'story.slot_count',
-                'story.comment_count', 'story.cover_img', 'story.status',
+                'story.id', 'story.description', 'story.is_nsfw', 'story.is_featured', 'story.like_count', 'story.slot_count',
+                'story.comment_count', 'story.cover_img', 'story.status', 'story.created_at',
                 /*'story.owner_id',*/
                 'owner.username as owner_username',
                 'story.question_id', 'story.question_meta_id', 'question_meta.text as question_meta_text'
@@ -78,5 +79,27 @@ class StoryStoryRepository extends EntityRepository
         }
 
         return $query;
+    }
+
+    public function findStoryById($id)
+    {
+        $query = $this->createQueryBuilder('story')
+            ->select(
+                'story.id', 'story.description', 'story.is_nsfw', 'story.is_featured', 'story.like_count', 'story.slot_count',
+                'story.comment_count', 'story.cover_img', 'story.status', 'story.created_at',
+                /*'story.owner_id',*/
+                'owner.username as owner_username',
+                'story.question_id', 'story.question_meta_id', 'question_meta.text as question_meta_text'
+            )
+            ->join('story.owner', 'owner')
+            ->leftJoin('story.question_meta', 'question_meta')
+            ->andwhere('story.id = :id')
+            ->setParameter('id', $id)
+            ->andwhere('story.status = :status')
+            ->setParameter('status', 1);
+
+        return $query->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
+
+
     }
 }

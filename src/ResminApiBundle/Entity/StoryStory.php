@@ -166,6 +166,20 @@ class StoryStory
     private $question_meta;
 
 
+    /**
+     * @var CommentComment
+     *
+     * @ORM\OneToMany(targetEntity="CommentComment",mappedBy="story")
+     */
+    private $comments;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -607,5 +621,63 @@ class StoryStory
         $this->question = $question;
 
         return $this;
+    }
+
+    /**
+     * Get questionMeta
+     *
+     * @return \ResminApiBundle\Entity\QuestionQuestionmeta
+     */
+    public function getQuestionMeta()
+    {
+        return $this->question_meta;
+    }
+
+    /**
+     * Set questionMeta
+     *
+     * @param \ResminApiBundle\Entity\QuestionQuestionmeta $questionMeta
+     *
+     * @return StoryStory
+     */
+    public function setQuestionMeta(\ResminApiBundle\Entity\QuestionQuestionmeta $questionMeta = null)
+    {
+        $this->question_meta = $questionMeta;
+
+        return $this;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \ResminApiBundle\Entity\CommentComment $comment
+     *
+     * @return StoryStory
+     */
+    public function addComment(\ResminApiBundle\Entity\CommentComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \ResminApiBundle\Entity\CommentComment $comment
+     */
+    public function removeComment(\ResminApiBundle\Entity\CommentComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

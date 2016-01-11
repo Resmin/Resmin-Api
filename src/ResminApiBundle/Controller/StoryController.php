@@ -71,4 +71,29 @@ class StoryController extends BaseController
             'data' => $results['data']
         ];
     }
+
+    /**
+     * @Route("/{id}", requirements={"id"="\d+"})
+     * @Method("GET")
+     * @ApiDoc(
+     *  section="Story",
+     *  description="Get single story",
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+"}
+     *  },
+     * )
+     */
+    public function getSingleStoryAction(Request $request, $id)
+    {
+        $service = $this->get('resmin_api.service.story.story_service');
+        $result = $service->getSingleStory($id);
+
+        if (!$result) {
+            return $this->createNotFoundException();
+        }
+
+        return [
+            'data' => $result
+        ];
+    }
 }
