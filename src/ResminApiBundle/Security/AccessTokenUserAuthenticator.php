@@ -46,8 +46,6 @@ class AccessTokenUserAuthenticator implements SimplePreAuthenticatorInterface
 
         $user = $userProvider->loadUserByUsername($username);
         if (!$user instanceof UserInterface) {
-            print_r($user);
-            die();
             throw new AuthenticationException('Hatalı bir kullanıcı kimliği belirtildi');
         }
 
