@@ -66,4 +66,7 @@ class StoryListingTest extends BaseTestCase
         }
     }
 
+    /**
+     * @TODO test single story
+     */
 }

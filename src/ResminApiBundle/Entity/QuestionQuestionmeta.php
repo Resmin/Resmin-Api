@@ -28,6 +28,17 @@ class QuestionQuestionmeta
      */
     private $owner_id;
 
+
+    /**
+     * @var \AuthUser
+     *
+     * @ORM\ManyToOne(targetEntity="AuthUser")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * })
+     */
+    private $owner;
+
     /**
      * @var string
      *
@@ -98,6 +109,17 @@ class QuestionQuestionmeta
      */
     private $latest_answer_id;
 
+
+    /**
+     * @var \StoryStory
+     *
+     * @ORM\ManyToOne(targetEntity="StoryStory")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="latest_answer_id", referencedColumnName="id")
+     * })
+     */
+    private $latest_answer;
+
     /**
      * @var integer
      *
@@ -105,6 +127,21 @@ class QuestionQuestionmeta
      */
     private $redirected_to_id;
 
+
+    /**
+     * @var StoryStory
+     *
+     * @ORM\OneToMany(targetEntity="StoryStory",mappedBy="question_meta")
+     */
+    private $stories;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->stories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -402,5 +439,87 @@ class QuestionQuestionmeta
         $this->redirected_to_id = $redirectedToId;
 
         return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \ResminApiBundle\Entity\AuthUser
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \ResminApiBundle\Entity\AuthUser $owner
+     *
+     * @return QuestionQuestionmeta
+     */
+    public function setOwner(\ResminApiBundle\Entity\AuthUser $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get latestAnswer
+     *
+     * @return \ResminApiBundle\Entity\StoryStory
+     */
+    public function getLatestAnswer()
+    {
+        return $this->latest_answer;
+    }
+
+    /**
+     * Set latestAnswer
+     *
+     * @param \ResminApiBundle\Entity\StoryStory $latestAnswer
+     *
+     * @return QuestionQuestionmeta
+     */
+    public function setLatestAnswer(\ResminApiBundle\Entity\StoryStory $latestAnswer = null)
+    {
+        $this->latest_answer = $latestAnswer;
+
+        return $this;
+    }
+
+    /**
+     * Add story
+     *
+     * @param \ResminApiBundle\Entity\StoryStory $story
+     *
+     * @return QuestionQuestionmeta
+     */
+    public function addStory(\ResminApiBundle\Entity\StoryStory $story)
+    {
+        $this->stories[] = $story;
+
+        return $this;
+    }
+
+    /**
+     * Remove story
+     *
+     * @param \ResminApiBundle\Entity\StoryStory $story
+     */
+    public function removeStory(\ResminApiBundle\Entity\StoryStory $story)
+    {
+        $this->stories->removeElement($story);
+    }
+
+    /**
+     * Get stories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStories()
+    {
+        return $this->stories;
     }
 }

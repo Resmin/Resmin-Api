@@ -12,30 +12,33 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class StoryController
+ * Class QuestionController
  * @package ResminApiBundle\Controller
- * @Route("/story")
+ * @Route("/question")
  */
-class StoryController extends BaseController
+class QuestionController extends BaseController
 {
     /**
      * @Route("")
      * @Method("GET")
      * @ApiDoc(
-     *  section="Story",
-     *  description="Get all stories",
+     *  section="Question",
+     *  description="Get all questions",
      *  filters={
      *      {"name"="limit", "dataType"="integer"},
      *      {"name"="page", "dataType"="integer", "default"="1"},
-     *      {"name"="listing_type", "dataType"="string", "default"="public", "pattern"="(public|wall|all)", "description"="for now only public works"},
+     *      {"name"="sort", "dataType"="string", "default"="id", "pattern"="(id)"},
+     *      {"name"="order", "dataType"="string", "default"="DESC", "pattern"="(ASC|DESC)"},
      *  }
      * )
      */
-    public function getAllStoriesAction(Request $request)
+    public function getAllQuestionsAction(Request $request)
     {
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', $this->getParameter('default_query_limit'));
-        $listing_type = $request->query->get('listing_type', 'public');
+        $sort = $request->query->get('sort', 'id');
+        $order = $request->query->get('order', 'DESC');
+
 
         $errors = $this->get('validator')->validate(
             $request->query->all(),
@@ -43,7 +46,8 @@ class StoryController extends BaseController
                 [
                     'limit' => new Assert\Optional([new Assert\Range(['min' => 1, 'max' => $this->getParameter('maximum_query_limit')])]),
                     'page' => new Assert\Optional([new Assert\Range(['min' => 1])]),
-                    'listing_type' => new Assert\Optional([new Assert\Choice(['choices' => ['public', 'wall', 'all']])]),
+                    'sort' => new Assert\Optional([new Assert\Choice(['choices' => ['id']])]),
+                    'order' => new Assert\Optional([new Assert\Choice(['choices' => ['ASC', 'DESC']])]),
                 ]
             )
         );
@@ -58,35 +62,34 @@ class StoryController extends BaseController
 
         $loggedUser = $this->getUser();
         if ($loggedUser === null) {
-            if ($listing_type === 'all' or $listing_type === 'wall') {
-                $listing_type = 'public';
-            }
+
         }
 
 
-        $service = $this->get('resmin_api.service.story.story_service');
-        $results = $service->getAllStories($page, $limit, $listing_type, null);
+        $service = $this->get('resmin_api.service.question.question_service');
+        $results = $service->getAllQuestions($page, $limit, $sort, $order);
         return [
             'meta' => $this->paginate($results['total'], $limit, $page),
             'data' => $results['data']
         ];
     }
 
+
     /**
      * @Route("/{id}", requirements={"id"="\d+"})
      * @Method("GET")
      * @ApiDoc(
-     *  section="Story",
-     *  description="Get single story",
+     *  section="Question",
+     *  description="Get single question",
      *  requirements={
      *      {"name"="id", "dataType"="integer", "requirement"="\d+"}
      *  },
      * )
      */
-    public function getSingleStoryAction(Request $request, $id)
+    public function getSingleQuestionAction(Request $request, $id)
     {
-        $service = $this->get('resmin_api.service.story.story_service');
-        $result = $service->getSingleStory($id);
+        $service = $this->get('resmin_api.service.question.question_service');
+        $result = $service->getSingleQuestion($id);
 
         if (!$result) {
             throw $this->createNotFoundException();
@@ -96,4 +99,28 @@ class StoryController extends BaseController
             'data' => $result
         ];
     }
+
+    /**
+     * @Route("/{id}/stories", requirements={"id"="\d+"})
+     * @Method("GET")
+     * @ApiDoc(
+     *  section="Question",
+     *  description="Get question stories",
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+"}
+     *  },
+     * )
+     */
+    public function getQuestionStoriesAction(Request $request, $id)
+    {
+        //TODO: check id exist.
+
+        $service = $this->get('resmin_api.service.story.story_service');
+        $result = $service->getAllStories(1, 1000, 'all', $id);
+
+        return [
+            'data' => $result['data']
+        ];
+    }
+
 }
