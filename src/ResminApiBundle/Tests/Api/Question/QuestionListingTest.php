@@ -37,10 +37,10 @@ class QuestionListingTest extends BaseTestCase
 
     public function testQuestionShowOneResult()
     {
-        $questionId = 963;
+        $questionMetaId = 963;
 
         $client = static::createClient();
-        $client->request('GET', '/v2/question/' . $questionId, [], [], $this->headers);
+        $client->request('GET', '/v2/question/' . $questionMetaId, [], [], $this->headers);
 
         $this->assertStatusCode(200, $client);
 
@@ -61,10 +61,10 @@ class QuestionListingTest extends BaseTestCase
 
     public function testQuestionStories()
     {
-        $questionId = 963;
+        $questionMetaId = 963;
 
         $client = static::createClient();
-        $client->request('GET', '/v2/question/' . $questionId . '/stories', [], [], $this->headers);
+        $client->request('GET', '/v2/question/' . $questionMetaId . '/stories', [], [], $this->headers);
 
         $this->assertStatusCode(200, $client);
 

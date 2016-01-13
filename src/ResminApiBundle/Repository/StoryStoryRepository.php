@@ -27,7 +27,7 @@ class StoryStoryRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('story')
             ->select(
-                'PARTIAL story.{id,created_at,question_id,description,is_nsfw,is_anonymouse,like_count,slot_count,status,visible_for,is_featured,comment_count,cover_img,is_playble}',
+                'PARTIAL story.{id,created_at,description,is_nsfw,is_anonymouse,like_count,slot_count,status,visible_for,is_featured,comment_count,cover_img,is_playble}',
                 'PARTIAL owner.{id,username}',
                 'PARTIAL question_meta.{id,text}'
             )
@@ -62,11 +62,9 @@ class StoryStoryRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('story')
             ->select(
-                'story.id', 'story.description', 'story.is_nsfw', 'story.is_featured', 'story.like_count', 'story.slot_count',
-                'story.comment_count', 'story.cover_img', 'story.status', 'story.created_at',
-                /*'story.owner_id',*/
-                'owner.username as owner_username',
-                'story.question_id', 'story.question_meta_id', 'question_meta.text as question_meta_text'
+                'PARTIAL story.{id,created_at,description,is_nsfw,is_anonymouse,like_count,slot_count,status,visible_for,is_featured,comment_count,cover_img,is_playble}',
+                'PARTIAL owner.{id,username}',
+                'PARTIAL question_meta.{id,text}'
             )
             ->join('story.owner', 'owner')
             ->leftJoin('story.question_meta', 'question_meta')

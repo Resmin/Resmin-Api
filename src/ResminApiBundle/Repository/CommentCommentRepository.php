@@ -13,8 +13,8 @@ class CommentCommentRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('comment')
             ->select(
-                'comment.body', 'comment.as_html', 'comment.posted_at',
-                'owner.username as owner_username'
+                'PARTIAL comment.{id, body, as_html, posted_at}',
+                'PARTIAL owner.{id,username}'
             )
             ->join('comment.owner', 'owner')
             ->where('comment.story_id = :storyId and comment.status = 1')
