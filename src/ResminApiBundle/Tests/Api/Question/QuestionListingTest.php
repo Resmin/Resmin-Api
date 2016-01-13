@@ -33,7 +33,69 @@ class QuestionListingTest extends BaseTestCase
         $this->assertArrayHasKey('created_at', $item);
         $this->assertArrayHasKey('answer_count', $item);
         $this->assertArrayHasKey('follower_count', $item);
+    }
 
+    public function testQuestionShowOneResult()
+    {
+        $questionId = 963;
+
+        $client = static::createClient();
+        $client->request('GET', '/v2/question/' . $questionId, [], [], $this->headers);
+
+        $this->assertStatusCode(200, $client);
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue(is_array($response));
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertTrue(is_array($response['data']));
+
+        $item = $response['data'];
+
+        $this->assertArrayHasKey('id', $item);
+        $this->assertArrayHasKey('text', $item);
+        $this->assertArrayHasKey('created_at', $item);
+        $this->assertArrayHasKey('answer_count', $item);
+        $this->assertArrayHasKey('follower_count', $item);
+    }
+
+    public function testQuestionStories()
+    {
+        $questionId = 963;
+
+        $client = static::createClient();
+        $client->request('GET', '/v2/question/' . $questionId . '/stories', [], [], $this->headers);
+
+        $this->assertStatusCode(200, $client);
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue(is_array($response));
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertTrue(is_array($response['data']));
+
+        //TODO: when questionMetaId made dynamic, change here with if statement
+        $this->assertGreaterThan(0, count($response['data']));
+
+        $item = $response['data'][0];
+
+        $this->assertArrayHasKey('id', $item);
+        $this->assertArrayHasKey('description', $item);
+        $this->assertArrayHasKey('is_nsfw', $item);
+        $this->assertArrayHasKey('is_featured', $item);
+        $this->assertArrayHasKey('like_count', $item);
+        $this->assertArrayHasKey('slot_count', $item);
+        $this->assertArrayHasKey('comment_count', $item);
+        $this->assertArrayHasKey('cover_img', $item);
+        $this->assertArrayHasKey('status', $item);
+        $this->assertArrayHasKey('owner', $item);
+        $this->assertArrayHasKey('id', $item['owner']);
+        $this->assertArrayHasKey('username', $item['owner']);
+        $this->assertArrayHasKey('question_id', $item);
+        $this->assertArrayHasKey('question_meta', $item);
+        $this->assertArrayHasKey('id', $item['question_meta']);
+        $this->assertArrayHasKey('text', $item['question_meta']);
+        $this->assertArrayHasKey('created_at', $item);
     }
 
 }

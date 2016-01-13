@@ -74,4 +74,53 @@ class QuestionController extends BaseController
         ];
     }
 
+
+    /**
+     * @Route("/{id}", requirements={"id"="\d+"})
+     * @Method("GET")
+     * @ApiDoc(
+     *  section="Question",
+     *  description="Get single question",
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+"}
+     *  },
+     * )
+     */
+    public function getSingleQuestionAction(Request $request, $id)
+    {
+        $service = $this->get('resmin_api.service.question.question_service');
+        $result = $service->getSingleQuestion($id);
+
+        if (!$result) {
+            throw $this->createNotFoundException();
+        }
+
+        return [
+            'data' => $result
+        ];
+    }
+
+    /**
+     * @Route("/{id}/stories", requirements={"id"="\d+"})
+     * @Method("GET")
+     * @ApiDoc(
+     *  section="Question",
+     *  description="Get question stories",
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+"}
+     *  },
+     * )
+     */
+    public function getQuestionStoriesAction(Request $request, $id)
+    {
+        //TODO: check id exist.
+
+        $service = $this->get('resmin_api.service.story.story_service');
+        $result = $service->getAllStories(1, 1000, 'all', $id);
+
+        return [
+            'data' => $result['data']
+        ];
+    }
+
 }

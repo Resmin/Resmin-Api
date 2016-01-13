@@ -20,16 +20,18 @@ class StoryStoryRepository extends EntityRepository
      * @param integer $offset
      * @param integer $limit
      * @param integer $visible_for
+     * @param $question_meta_id
      * @return array
      */
-    public function findAllStories($offset, $limit, $visible_for)
+    public function findAllStories($offset, $limit, $visible_for, $question_meta_id)
     {
         $query = $this->createQueryBuilder('story')
             ->select(
                 'PARTIAL story.{id,created_at,question_id,description,is_nsfw,is_anonymouse,like_count,slot_count,status,visible_for,is_featured,comment_count,cover_img,is_playble}',
                 'PARTIAL owner.{id,username}',
                 'PARTIAL question_meta.{id,text}'
-            )->join('story.owner', 'owner')
+            )
+            ->join('story.owner', 'owner')
             /*->leftJoin('story.question', 'question')*/
             ->leftJoin('story.question_meta', 'question_meta')
             ->where('story.status = :status')
@@ -40,6 +42,10 @@ class StoryStoryRepository extends EntityRepository
         if ($visible_for !== NULL) {
             $query->andWhere('story.visible_for = :visible_for')
                 ->setParameter('visible_for', $visible_for);
+        }
+        if ($question_meta_id !== NULL) {
+            $query->andWhere('story.question_meta_id =:question_meta_id')
+                ->setParameter('question_meta_id', $question_meta_id);
         }
         $query->setMaxResults($limit)
             ->setFirstResult($offset)

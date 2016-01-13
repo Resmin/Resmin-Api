@@ -42,4 +42,18 @@ class QuestionQuestionRepository extends EntityRepository
             'data' => $paginator->getQuery()->getArrayResult()
         ];
     }
+
+    public function findSingleQuestion($id)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->from('ResminApiBundle:QuestionQuestionmeta', 'question_meta')
+            ->select(
+                'PARTIAL question_meta.{id,text,created_at,answer_count,follower_count}'
+            )
+            ->andWhere('question_meta.status = :status AND question_meta.id = :id')
+            ->setParameter('status', 0)
+            ->setParameter('id', $id);
+
+        return $query->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 }

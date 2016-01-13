@@ -65,7 +65,7 @@ class StoryController extends BaseController
 
 
         $service = $this->get('resmin_api.service.story.story_service');
-        $results = $service->getAllStories($page, $limit, $listing_type);
+        $results = $service->getAllStories($page, $limit, $listing_type, null);
         return [
             'meta' => $this->paginate($results['total'], $limit, $page),
             'data' => $results['data']

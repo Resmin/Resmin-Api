@@ -129,6 +129,21 @@ class QuestionQuestionmeta
 
 
     /**
+     * @var StoryStory
+     *
+     * @ORM\OneToMany(targetEntity="StoryStory",mappedBy="question_meta")
+     */
+    private $stories;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->stories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -472,5 +487,39 @@ class QuestionQuestionmeta
         $this->latest_answer = $latestAnswer;
 
         return $this;
+    }
+
+    /**
+     * Add story
+     *
+     * @param \ResminApiBundle\Entity\StoryStory $story
+     *
+     * @return QuestionQuestionmeta
+     */
+    public function addStory(\ResminApiBundle\Entity\StoryStory $story)
+    {
+        $this->stories[] = $story;
+
+        return $this;
+    }
+
+    /**
+     * Remove story
+     *
+     * @param \ResminApiBundle\Entity\StoryStory $story
+     */
+    public function removeStory(\ResminApiBundle\Entity\StoryStory $story)
+    {
+        $this->stories->removeElement($story);
+    }
+
+    /**
+     * Get stories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStories()
+    {
+        return $this->stories;
     }
 }

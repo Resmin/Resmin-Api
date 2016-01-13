@@ -37,4 +37,11 @@ class QuestionQuestionService
 
         return $results;
     }
+
+    public function getSingleQuestion($id)
+    {
+        $result = $this->questionQuestionRepository->findSingleQuestion($id);
+
+        return $result;
+    }
 }

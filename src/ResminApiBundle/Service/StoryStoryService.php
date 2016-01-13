@@ -50,7 +50,7 @@ class StoryStoryService
         $this->storySlotRepository = $storySlotRepository;
     }
 
-    public function getAllStories($page, $limit, $listing_type)
+    public function getAllStories($page, $limit, $listing_type, $question_meta_id)
     {
         if ($listing_type === 'public') {
             $visible_for = 0;
@@ -61,7 +61,7 @@ class StoryStoryService
         }
 
         $offset = ($page * $limit) - $limit;
-        $results = $this->storyStoryRepository->findAllStories($offset, $limit, $visible_for);
+        $results = $this->storyStoryRepository->findAllStories($offset, $limit, $visible_for, $question_meta_id);
 
         foreach ($results['data'] as $k => $result) {
             $results['data'][$k]['cover_img'] = json_decode($result['cover_img']);
