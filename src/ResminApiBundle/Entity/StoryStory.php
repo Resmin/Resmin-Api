@@ -156,7 +156,7 @@ class StoryStory
 
 
     /**
-     * @var \AuthUser
+     * @var \QuestionMeta
      *
      * @ORM\ManyToOne(targetEntity="QuestionQuestionmeta")
      * @ORM\JoinColumns({
