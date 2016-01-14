@@ -18,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AuthController extends BaseController
 {
     /**
+     * If login successfull, returns access_token that you will use it for authentication on api.
+     *
      * @Route("/login")
      * @Method({"POST"})
      * @ApiDoc(

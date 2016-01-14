@@ -19,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class QuestionController extends BaseController
 {
     /**
+     * Returns all questions with pagination. (BTW it returns questionmeta records)
+     *
      * @Route("")
      * @Method("GET")
      * @ApiDoc(
@@ -76,6 +78,8 @@ class QuestionController extends BaseController
 
 
     /**
+     * Returns single question record.
+     *
      * @Route("/{id}", requirements={"id"="\d+"})
      * @Method("GET")
      * @ApiDoc(
@@ -101,6 +105,9 @@ class QuestionController extends BaseController
     }
 
     /**
+     * Returns stories that related with question.
+     * Then select a story and show slots <3
+     *
      * @Route("/{id}/stories", requirements={"id"="\d+"})
      * @Method("GET")
      * @ApiDoc(

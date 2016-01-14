@@ -13,6 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class BaseController extends Controller
 {
 
+    /**
+     * helper function
+     * @param integer $total
+     * @param integer $limit
+     * @param integer $page
+     * @return array
+     */
     public function paginate($total, $limit, $page)
     {
         return [

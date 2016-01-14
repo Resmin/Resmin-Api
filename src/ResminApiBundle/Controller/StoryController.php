@@ -19,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class StoryController extends BaseController
 {
     /**
+     * Returns all stories with cover images. By default sorts id DESC. Mean is, last added comes first as you know
+     *
      * @Route("")
      * @Method("GET")
      * @ApiDoc(
@@ -73,6 +75,8 @@ class StoryController extends BaseController
     }
 
     /**
+     * Returns single story with comments and slots.
+     *
      * @Route("/{id}", requirements={"id"="\d+"})
      * @Method("GET")
      * @ApiDoc(
