@@ -172,6 +172,12 @@ class StoryStory
      * @ORM\OneToMany(targetEntity="CommentComment",mappedBy="story")
      */
     private $comments;
+    /**
+     * @var StorySlot
+     *
+     * @ORM\OneToMany(targetEntity="StorySlot",mappedBy="story")
+     */
+    private $slots;
 
     /**
      * Constructor
@@ -679,5 +685,39 @@ class StoryStory
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add slot
+     *
+     * @param \ResminApiBundle\Entity\StorySlot $slot
+     *
+     * @return StoryStory
+     */
+    public function addSlot(\ResminApiBundle\Entity\StorySlot $slot)
+    {
+        $this->slots[] = $slot;
+
+        return $this;
+    }
+
+    /**
+     * Remove slot
+     *
+     * @param \ResminApiBundle\Entity\StorySlot $slot
+     */
+    public function removeSlot(\ResminApiBundle\Entity\StorySlot $slot)
+    {
+        $this->slots->removeElement($slot);
+    }
+
+    /**
+     * Get slots
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSlots()
+    {
+        return $this->slots;
     }
 }

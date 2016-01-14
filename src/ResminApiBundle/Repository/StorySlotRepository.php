@@ -13,8 +13,8 @@ class StorySlotRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('slot')
             ->select(
-                'slot.title', 'slot.description',
-                'image.image', 'image.is_playble'
+                'PARTIAL slot.{id, title, description}',
+                'PARTIAL image.{id,image,is_playble,mime_type}'
             )
             ->join('slot.image', 'image')
             ->where('slot.story_id = :storyId')

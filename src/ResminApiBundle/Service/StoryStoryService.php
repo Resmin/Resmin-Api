@@ -81,10 +81,6 @@ class StoryStoryService
         $result['cover_img'] = json_decode($result['cover_img']);
         $result['comment_count'] = (int)($result['comment_count']);
 
-
-        $result['slots'] = $this->storySlotRepository->findSlotsByStoryId($result['id']);
-        $result['comments'] = $this->commentCommentRepository->findCommentsByStoryId($result['id']);
-
         return $result;
     }
 }

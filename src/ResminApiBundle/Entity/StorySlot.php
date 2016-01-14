@@ -38,7 +38,7 @@ class StorySlot
     /**
      * @var \StoryStory
      *
-     * @ORM\ManyToOne(targetEntity="StoryStory", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="StoryStory", inversedBy="slots")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="story_id", referencedColumnName="id")
      * })

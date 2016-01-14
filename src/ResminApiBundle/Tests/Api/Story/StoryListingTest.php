@@ -104,10 +104,14 @@ class StoryListingTest extends BaseTestCase
         $this->assertArrayHasKey('slots', $item);
         if (count($item['slots']) > 0) {
             foreach ($item['slots'] as $slot) {
+                $this->assertArrayHasKey('id', $slot);
                 $this->assertArrayHasKey('title', $slot);
                 $this->assertArrayHasKey('description', $slot);
-                $this->assertArrayHasKey('is_playble', $slot);
                 $this->assertArrayHasKey('image', $slot);
+                $this->assertArrayHasKey('id', $slot['image']);
+                $this->assertArrayHasKey('image', $slot['image']);
+                $this->assertArrayHasKey('is_playble', $slot['image']);
+                $this->assertArrayHasKey('mime_type', $slot['image']);
             }
         }
         $this->assertArrayHasKey('comments', $item);

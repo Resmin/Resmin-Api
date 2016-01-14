@@ -64,9 +64,19 @@ class StoryStoryRepository extends EntityRepository
             ->select(
                 'PARTIAL story.{id,created_at,description,is_nsfw,is_anonymouse,like_count,slot_count,status,visible_for,is_featured,comment_count,cover_img,is_playble}',
                 'PARTIAL owner.{id,username}',
-                'PARTIAL question_meta.{id,text}'
+                'PARTIAL question_meta.{id,text}',
+
+                'PARTIAL slots.{id, title, description}',
+                'PARTIAL slot_image.{id,image,is_playble,mime_type}',
+
+                'PARTIAL comments.{id, body, as_html, posted_at}',
+                'PARTIAL comment_owner.{id,username}'
             )
             ->join('story.owner', 'owner')
+            ->join('story.slots', 'slots')
+            ->leftJoin('slots.image', 'slot_image')
+            ->leftJoin('story.comments', 'comments')
+            ->leftJoin('comments.owner', 'comment_owner')
             ->leftJoin('story.question_meta', 'question_meta')
             ->andwhere('story.id = :id')
             ->setParameter('id', $id)

@@ -91,7 +91,6 @@ class QuestionListingTest extends BaseTestCase
         $this->assertArrayHasKey('owner', $item);
         $this->assertArrayHasKey('id', $item['owner']);
         $this->assertArrayHasKey('username', $item['owner']);
-        $this->assertArrayHasKey('question_id', $item);
         $this->assertArrayHasKey('question_meta', $item);
         $this->assertArrayHasKey('id', $item['question_meta']);
         $this->assertArrayHasKey('text', $item['question_meta']);
