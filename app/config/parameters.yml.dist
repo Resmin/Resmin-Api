@@ -26,3 +26,5 @@ parameters:
     redis_session_host: localhost
     redis_session_port: 6379
     redis_session_keyspace: session
+    unittest_username: null
+    unittest_password: null

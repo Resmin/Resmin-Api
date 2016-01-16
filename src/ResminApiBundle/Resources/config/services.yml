@@ -63,6 +63,10 @@ services:
     class: ResminApiBundle\Service\AccessTokenService
     arguments: ['@doctrine_cache.providers.redis_cache']
 
+  resmin_api.service.unittest_service:
+          class: ResminApiBundle\Service\UnitTestService
+          arguments: ['%unittest_username%','%unittest_password%','@resmin_api.service.auth_service','@resmin_api.service.access_token_service','@doctrine_cache.providers.redis_session']
+
   resmin_api.security.accesstoken_userprovider:
         class: ResminApiBundle\Security\AccessTokenUserProvider
         arguments: ['@resmin_api.service.auth_service']

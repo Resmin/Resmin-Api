@@ -5,6 +5,7 @@ namespace ResminApiBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -70,6 +71,9 @@ class AuthController extends BaseController
 
         $accessTokenService = $this->get('resmin_api.service.access_token_service');
         $accessTokenService->insertAccessToken($accessToken, $user);
+        /**
+         * TODO: update user's last login time.
+         */
 
         return [
             'data' => [
@@ -78,4 +82,33 @@ class AuthController extends BaseController
             ]
         ];
     }
+
+
+    /**
+     * Returns user belongs to access token
+     *
+     * @Route("/me")
+     * @Method({"GET"})
+     * @Security("has_role('ROLE_USER')")
+     * @ApiDoc(
+     *  section="Auth",
+     *  description="Get logged user details"
+     * )
+     */
+    public function getLoggedUserDetailsAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        return [
+            'data' => [
+                'username' => $user->getUsername(),
+                'email' => $user->getEmail(),
+                'first_name' => $user->getFirstName(),
+                'last_name' => $user->getLastName,
+                'last_login' => $user->getLastLogin()
+            ]
+        ];
+    }
+
+
 }

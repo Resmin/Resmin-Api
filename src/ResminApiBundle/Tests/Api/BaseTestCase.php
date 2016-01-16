@@ -18,10 +18,14 @@ class BaseTestCase extends WebTestCase
 
     protected $container;
 
-    public function __construct()
+    public function __construct($login = false)
     {
         $this->container = $this->getContainer();
-        $this->headers = [];
+        if ($login === false) {
+            $this->headers = [];
+        } else {
+            $this->headers = $this->container->get('resmin_api.service.unittest_service')->getHeaders();
+        }
     }
 
     /**
