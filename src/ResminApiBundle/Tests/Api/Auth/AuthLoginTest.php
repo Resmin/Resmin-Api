@@ -13,6 +13,22 @@ class AuthLoginTest extends BaseTestCase
     {
         $client = static::createClient();
         $parameters = [
+            'username' => 'username_that_not_exist',
+            'password' => 'username_already_not_exist'
+        ];
+        $client->request('POST', '/v2/auth/login', $parameters, [], $this->headers);
+        $this->assertStatusCode(404, $client);
+
+        $client = static::createClient();
+        $parameters = [
+            'username' => 'tersakyan',
+            'password' => 'you-do-not-know-my-password'
+        ];
+        $client->request('POST', '/v2/auth/login', $parameters, [], $this->headers);
+        $this->assertStatusCode(404, $client);
+
+        $client = static::createClient();
+        $parameters = [
             'username' => $this->container->getParameter('unittest_username'),
             'password' => $this->container->getParameter('unittest_password')
         ];

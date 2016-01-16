@@ -28,14 +28,8 @@ class BaseTestCase extends WebTestCase
         }
     }
 
-    /**
-     * This test checks every time for api documentation is working.
-     */
-    public function testDocumentationIsWorking()
+    public function test_free()
     {
-        $client = static::createClient();
-        $client->request('GET', '/api/doc', [], [], []);
 
-        $this->assertStatusCode(200, $client);
     }
 }

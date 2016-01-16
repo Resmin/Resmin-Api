@@ -16,5 +16,7 @@ class PaswordTest extends BaseTestCase
 
         $password = 'pAsSW0rD';
         $this->assertFalse($service->verifyPassword($hashedPassword, $password));
+
+        $this->assertFalse($service->verifyPassword('WRONG-HASH', $password));
     }
 }
