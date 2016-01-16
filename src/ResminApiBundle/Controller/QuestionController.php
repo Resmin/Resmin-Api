@@ -29,6 +29,7 @@ class QuestionController extends BaseController
      *  filters={
      *      {"name"="limit", "dataType"="integer"},
      *      {"name"="page", "dataType"="integer", "default"="1"},
+     *      {"name"="min_answer_count", "dataType"="integer","description"="If you set this param, only questions will shown have anster greater and eq than min_answer_count variable"},
      *      {"name"="sort", "dataType"="string", "default"="id", "pattern"="(id)"},
      *      {"name"="order", "dataType"="string", "default"="DESC", "pattern"="(ASC|DESC)"},
      *  }
@@ -40,6 +41,7 @@ class QuestionController extends BaseController
         $limit = $request->query->getInt('limit', $this->getParameter('default_query_limit'));
         $sort = $request->query->get('sort', 'id');
         $order = $request->query->get('order', 'DESC');
+        $min_answer_count = $request->query->get('min_answer_count');
 
 
         $errors = $this->get('validator')->validate(
@@ -48,6 +50,7 @@ class QuestionController extends BaseController
                 [
                     'limit' => new Assert\Optional([new Assert\Range(['min' => 1, 'max' => $this->getParameter('maximum_query_limit')])]),
                     'page' => new Assert\Optional([new Assert\Range(['min' => 1])]),
+                    'min_answer_count' => new Assert\Optional([new Assert\Range(['min' => 0])]),
                     'sort' => new Assert\Optional([new Assert\Choice(['choices' => ['id']])]),
                     'order' => new Assert\Optional([new Assert\Choice(['choices' => ['ASC', 'DESC']])]),
                 ]
@@ -69,7 +72,7 @@ class QuestionController extends BaseController
 
 
         $service = $this->get('resmin_api.service.question.question_service');
-        $results = $service->getAllQuestions($page, $limit, $sort, $order);
+        $results = $service->getAllQuestions($page, $limit, $sort, $order, $min_answer_count);
         return [
             'meta' => $this->paginate($results['total'], $limit, $page),
             'data' => $results['data']

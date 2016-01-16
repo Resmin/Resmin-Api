@@ -35,6 +35,20 @@ class QuestionListingTest extends BaseTestCase
         $this->assertArrayHasKey('follower_count', $item);
     }
 
+    public function testQuestionWithFilters()
+    {
+        $filters[] = ['limit' => 30, 'page' => 30];
+        $filters[] = ['min_answer_count' => 10];
+        foreach ($filters as $k => $v) {
+            $client = static::createClient();
+            $client->request('GET', '/v2/question', $v, [], $this->headers);
+            $this->assertStatusCode(200, $client);
+
+            $response = json_decode($client->getResponse()->getContent(), true);
+            $this->assertTrue(is_array($response));
+        }
+    }
+
     public function testQuestionShowOneResult()
     {
         $questionMetaId = 963;

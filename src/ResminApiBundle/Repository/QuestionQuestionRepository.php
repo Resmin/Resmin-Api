@@ -14,9 +14,10 @@ class QuestionQuestionRepository extends EntityRepository
      * @param integer $limit
      * @param string $sort
      * @param string $order
+     * @param $min_answer_count
      * @return array
      */
-    public function findAllQuestions($offset, $limit, $sort, $order)
+    public function findAllQuestions($offset, $limit, $sort, $order, $min_answer_count)
     {
         if ($sort === 'id') {
             $sort = 'question_meta.id';
@@ -31,6 +32,11 @@ class QuestionQuestionRepository extends EntityRepository
             )->join('question_meta.owner', 'owner')
             ->where('question_meta.status = :status')
             ->setParameter('status', 0);
+
+        if ($min_answer_count !== null) {
+            $query->andWhere('question_meta.answer_count >= :min_answer_count')
+                ->setParameter('min_answer_count', $min_answer_count);
+        }
 
         $query->setMaxResults($limit)
             ->setFirstResult($offset)

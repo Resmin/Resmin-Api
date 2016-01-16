@@ -30,10 +30,10 @@ class QuestionQuestionService
         $this->entityManager = $entityManager;
     }
 
-    public function getAllQuestions($page, $limit, $sort, $order)
+    public function getAllQuestions($page, $limit, $sort, $order, $min_answer_count)
     {
         $offset = ($page * $limit) - $limit;
-        $results = $this->questionQuestionRepository->findAllQuestions($offset, $limit, $sort, $order);
+        $results = $this->questionQuestionRepository->findAllQuestions($offset, $limit, $sort, $order, $min_answer_count);
 
         return $results;
     }
