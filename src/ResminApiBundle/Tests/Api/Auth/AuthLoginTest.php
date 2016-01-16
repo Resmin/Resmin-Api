@@ -13,12 +13,19 @@ class AuthLoginTest extends BaseTestCase
     {
         $client = static::createClient();
         $parameters = [
-            'username' => 'user',
-            'password' => 'pass'
+            'username' => $this->container->getParameter('unittest_username'),
+            'password' => $this->container->getParameter('unittest_password')
         ];
         $client->request('POST', '/v2/auth/login', $parameters, [], $this->headers);
 
-        $this->assertStatusCode(404, $client);
+        $this->assertStatusCode(201, $client);
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue(is_array($response));
+
+        $this->assertArrayHasKey('data', $response);
+        $item = $response['data'];
+        $this->assertArrayHasKey('access_token', $item);
+        $this->assertArrayHasKey('username', $item);
     }
 
 }
