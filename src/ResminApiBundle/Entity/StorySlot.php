@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * StorySlot
  *
  * @ORM\Table(name="story_slot", indexes={@ORM\Index(name="story_slot_734ee247", columns={"story_id"}), @ORM\Index(name="story_slot_431b9d2e", columns={"cTp_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ResminApiBundle\Repository\StorySlotRepository")"
  */
 class StorySlot
 {
@@ -33,7 +33,17 @@ class StorySlot
      *
      * @ORM\Column(name="story_id", type="integer", nullable=true)
      */
-    private $storyId;
+    private $story_id;
+
+    /**
+     * @var \StoryStory
+     *
+     * @ORM\ManyToOne(targetEntity="StoryStory", inversedBy="slots")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="story_id", referencedColumnName="id")
+     * })
+     */
+    private $story;
 
     /**
      * @var string
@@ -54,21 +64,32 @@ class StorySlot
      *
      * @ORM\Column(name="cPk", type="integer", nullable=false)
      */
-    private $cpk;
+    private $cPk;
+
+
+    /**
+     * @var \StoryStory
+     *
+     * @ORM\ManyToOne(targetEntity="StoryImage")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cPk", referencedColumnName="id")
+     * })
+     */
+    private $image;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="cTp_id", type="integer", nullable=false)
      */
-    private $ctpId;
+    private $cTp_id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    private $createdAt;
+    private $created_at;
 
 
 
@@ -80,6 +101,16 @@ class StorySlot
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get order
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 
     /**
@@ -97,13 +128,13 @@ class StorySlot
     }
 
     /**
-     * Get order
+     * Get storyId
      *
      * @return integer
      */
-    public function getOrder()
+    public function getStoryId()
     {
-        return $this->order;
+        return $this->story_id;
     }
 
     /**
@@ -115,19 +146,19 @@ class StorySlot
      */
     public function setStoryId($storyId)
     {
-        $this->storyId = $storyId;
+        $this->story_id = $storyId;
 
         return $this;
     }
 
     /**
-     * Get storyId
+     * Get title
      *
-     * @return integer
+     * @return string
      */
-    public function getStoryId()
+    public function getTitle()
     {
-        return $this->storyId;
+        return $this->title;
     }
 
     /**
@@ -145,13 +176,13 @@ class StorySlot
     }
 
     /**
-     * Get title
+     * Get description
      *
      * @return string
      */
-    public function getTitle()
+    public function getDescription()
     {
-        return $this->title;
+        return $this->description;
     }
 
     /**
@@ -169,73 +200,49 @@ class StorySlot
     }
 
     /**
-     * Get description
+     * Get cPk
      *
-     * @return string
+     * @return integer
      */
-    public function getDescription()
+    public function getCPk()
     {
-        return $this->description;
+        return $this->cPk;
     }
 
     /**
-     * Set cpk
+     * Set cPk
      *
-     * @param integer $cpk
+     * @param integer $cPk
      *
      * @return StorySlot
      */
-    public function setCpk($cpk)
+    public function setCPk($cPk)
     {
-        $this->cpk = $cpk;
+        $this->cPk = $cPk;
 
         return $this;
     }
 
     /**
-     * Get cpk
+     * Get cTpId
      *
      * @return integer
      */
-    public function getCpk()
+    public function getCTpId()
     {
-        return $this->cpk;
+        return $this->cTp_id;
     }
 
     /**
-     * Set ctpId
+     * Set cTpId
      *
-     * @param integer $ctpId
+     * @param integer $cTpId
      *
      * @return StorySlot
      */
-    public function setCtpId($ctpId)
+    public function setCTpId($cTpId)
     {
-        $this->ctpId = $ctpId;
-
-        return $this;
-    }
-
-    /**
-     * Get ctpId
-     *
-     * @return integer
-     */
-    public function getCtpId()
-    {
-        return $this->ctpId;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return StorySlot
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
+        $this->cTp_id = $cTpId;
 
         return $this;
     }
@@ -247,6 +254,68 @@ class StorySlot
      */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->created_at;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return StorySlot
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get story
+     *
+     * @return \ResminApiBundle\Entity\StoryStory
+     */
+    public function getStory()
+    {
+        return $this->story;
+    }
+
+    /**
+     * Set story
+     *
+     * @param \ResminApiBundle\Entity\StoryStory $story
+     *
+     * @return StorySlot
+     */
+    public function setStory(\ResminApiBundle\Entity\StoryStory $story = null)
+    {
+        $this->story = $story;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \ResminApiBundle\Entity\StoryImage
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \ResminApiBundle\Entity\StoryImage $image
+     *
+     * @return StorySlot
+     */
+    public function setImage(\ResminApiBundle\Entity\StoryImage $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }

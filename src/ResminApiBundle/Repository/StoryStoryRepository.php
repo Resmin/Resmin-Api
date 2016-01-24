@@ -9,7 +9,9 @@
 namespace ResminApiBundle\Repository;
 
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class StoryStoryRepository extends EntityRepository
 {
@@ -18,53 +20,18 @@ class StoryStoryRepository extends EntityRepository
      * @param integer $offset
      * @param integer $limit
      * @param integer $visible_for
+     * @param $question_meta_id
      * @return array
      */
-    public function findAllStories($offset, $limit, $visible_for)
-    {
-
-        $total = $this->countResultsQuery($visible_for);
-
-        $query = $this->baseQuery($visible_for);
-
-        $query->setMaxResults($limit)
-            ->setFirstResult($offset);
-        $query->orderBy('story.id', 'DESC');
-
-        $data = $query->getQuery()->getArrayResult();
-
-        return [
-            'total' => (int)$total,
-            'data' => $data
-        ];
-    }
-
-    /**
-     * @param integer $visible_for
-     * @return integer
-     */
-    public function countResultsQuery($visible_for)
-    {
-        $query = $this->baseQuery($visible_for);
-        $query->select('count(story.id)');
-
-        return $query->getQuery()->getSingleScalarResult();
-    }
-
-    /**
-     * @param integer $visible_for
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function baseQuery($visible_for)
+    public function findAllStories($offset, $limit, $visible_for, $question_meta_id)
     {
         $query = $this->createQueryBuilder('story')
             ->select(
-                'story.id', 'story.title', 'story.description', 'story.is_nsfw', 'story.is_featured', 'story.like_count', 'story.slot_count',
-                'story.comment_count', 'story.cover_img', 'story.status',
-                /*'story.owner_id',*/
-                'owner.username as owner_username',
-                'story.question_id', 'story.question_meta_id', 'question_meta.text as question_meta_text'
-            )->join('story.owner', 'owner')
+                'PARTIAL story.{id,created_at,description,is_nsfw,is_anonymouse,like_count,slot_count,status,visible_for,is_featured,comment_count,cover_img,is_playble}',
+                'PARTIAL owner.{id,username}',
+                'PARTIAL question_meta.{id,text}'
+            )
+            ->join('story.owner', 'owner')
             /*->leftJoin('story.question', 'question')*/
             ->leftJoin('story.question_meta', 'question_meta')
             ->where('story.status = :status')
@@ -76,7 +43,46 @@ class StoryStoryRepository extends EntityRepository
             $query->andWhere('story.visible_for = :visible_for')
                 ->setParameter('visible_for', $visible_for);
         }
+        if ($question_meta_id !== NULL) {
+            $query->andWhere('story.question_meta_id =:question_meta_id')
+                ->setParameter('question_meta_id', $question_meta_id);
+        }
+        $query->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->orderBy('story.id', 'DESC');
+        $paginator = new Paginator($query, true);
 
-        return $query;
+        return [
+            'total' => count($paginator),
+            'data' => $paginator->getQuery()->getArrayResult()
+        ];
+    }
+
+    public function findStoryById($id)
+    {
+        $query = $this->createQueryBuilder('story')
+            ->select(
+                'PARTIAL story.{id,created_at,description,is_nsfw,is_anonymouse,like_count,slot_count,status,visible_for,is_featured,comment_count,cover_img,is_playble}',
+                'PARTIAL owner.{id,username}',
+                'PARTIAL question_meta.{id,text}',
+
+                'PARTIAL slots.{id, title, description}',
+                'PARTIAL slot_image.{id,image,is_playble,mime_type}',
+
+                'PARTIAL comments.{id, body, as_html, posted_at}',
+                'PARTIAL comment_owner.{id,username}'
+            )
+            ->join('story.owner', 'owner')
+            ->join('story.slots', 'slots')
+            ->leftJoin('slots.image', 'slot_image')
+            ->leftJoin('story.comments', 'comments')
+            ->leftJoin('comments.owner', 'comment_owner')
+            ->leftJoin('story.question_meta', 'question_meta')
+            ->andwhere('story.id = :id')
+            ->setParameter('id', $id)
+            ->andwhere('story.status = :status')
+            ->setParameter('status', 1);
+
+        return $query->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
     }
 }

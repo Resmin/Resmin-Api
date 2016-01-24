@@ -19,6 +19,12 @@ After running server you can access api documentation via
         
     http://your_url:your_port/api/doc
     
+### Authentication    
+
+First you need to get access token. Look "Auth" section at documentation.
+ 
+If you want to access pages behind security, you have to send your access token with headers. Your header key is X-ACCESS-TOKEN
+    
 ### Testing
     
 We are using functional testing. Simply run for check all tests

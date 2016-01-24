@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * QuestionQuestion
  *
  * @ORM\Table(name="question_question", indexes={@ORM\Index(name="question_question_b7720888", columns={"questioner_id"}), @ORM\Index(name="question_question_a6b50b9d", columns={"meta_id"}), @ORM\Index(name="question_question_153a8eb8", columns={"questionee_id"}), @ORM\Index(name="question_question_5b4ce3ea", columns={"answer_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ResminApiBundle\Repository\QuestionQuestionRepository")
  */
 class QuestionQuestion
 {
@@ -28,6 +28,17 @@ class QuestionQuestion
      */
     private $questioner_id;
 
+
+    /**
+     * @var \AuthUser
+     *
+     * @ORM\ManyToOne(targetEntity="AuthUser")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="questioner_id", referencedColumnName="id")
+     * })
+     */
+    private $questioner;
+
     /**
      * @var integer
      *
@@ -35,12 +46,34 @@ class QuestionQuestion
      */
     private $meta_id;
 
+
+    /**
+     * @var \QuestionMeta
+     *
+     * @ORM\ManyToOne(targetEntity="QuestionQuestionmeta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="meta_id", referencedColumnName="id")
+     * })
+     */
+    private $question_meta;
+
     /**
      * @var integer
      *
      * @ORM\Column(name="questionee_id", type="integer", nullable=false)
      */
     private $questionee_id;
+
+
+    /**
+     * @var \AuthUser
+     *
+     * @ORM\ManyToOne(targetEntity="AuthUser")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="questionee_id", referencedColumnName="id")
+     * })
+     */
+    private $questionee;
 
     /**
      * @var boolean
@@ -245,6 +278,78 @@ class QuestionQuestion
     public function setStatus($status)
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get questioner
+     *
+     * @return \ResminApiBundle\Entity\AuthUser
+     */
+    public function getQuestioner()
+    {
+        return $this->questioner;
+    }
+
+    /**
+     * Set questioner
+     *
+     * @param \ResminApiBundle\Entity\AuthUser $questioner
+     *
+     * @return QuestionQuestion
+     */
+    public function setQuestioner(\ResminApiBundle\Entity\AuthUser $questioner = null)
+    {
+        $this->questioner = $questioner;
+
+        return $this;
+    }
+
+    /**
+     * Get questionMeta
+     *
+     * @return \ResminApiBundle\Entity\QuestionQuestionmeta
+     */
+    public function getQuestionMeta()
+    {
+        return $this->question_meta;
+    }
+
+    /**
+     * Set questionMeta
+     *
+     * @param \ResminApiBundle\Entity\QuestionQuestionmeta $questionMeta
+     *
+     * @return QuestionQuestion
+     */
+    public function setQuestionMeta(\ResminApiBundle\Entity\QuestionQuestionmeta $questionMeta = null)
+    {
+        $this->question_meta = $questionMeta;
+
+        return $this;
+    }
+
+    /**
+     * Get questionee
+     *
+     * @return \ResminApiBundle\Entity\AuthUser
+     */
+    public function getQuestionee()
+    {
+        return $this->questionee;
+    }
+
+    /**
+     * Set questionee
+     *
+     * @param \ResminApiBundle\Entity\AuthUser $questionee
+     *
+     * @return QuestionQuestion
+     */
+    public function setQuestionee(\ResminApiBundle\Entity\AuthUser $questionee = null)
+    {
+        $this->questionee = $questionee;
 
         return $this;
     }

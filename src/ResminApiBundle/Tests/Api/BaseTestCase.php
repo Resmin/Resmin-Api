@@ -1,9 +1,6 @@
 <?php
 namespace ResminApiBundle\Tests\Api;
 
-
-use Dugun\ApiBundle\Service\UnitTestService;
-use Dugun\ApiBundle\Service\UserService;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class BaseTestCase extends WebTestCase
@@ -21,20 +18,18 @@ class BaseTestCase extends WebTestCase
 
     protected $container;
 
-    public function __construct()
+    public function __construct($login = false)
     {
         $this->container = $this->getContainer();
-        $this->headers = [];
+        if ($login === false) {
+            $this->headers = [];
+        } else {
+            $this->headers = $this->container->get('resmin_api.service.unittest_service')->getHeaders();
+        }
     }
 
-    /**
-     * This test checks every time for api documentation is working.
-     */
-    public function testDocumentationIsWorking()
+    public function test_free()
     {
-        $client = static::createClient();
-        $client->request('GET', '/api/doc', [], [], []);
 
-        $this->assertStatusCode(200, $client);
     }
 }

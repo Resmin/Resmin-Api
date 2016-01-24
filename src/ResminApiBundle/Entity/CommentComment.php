@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CommentComment
  *
  * @ORM\Table(name="comment_comment", indexes={@ORM\Index(name="comment_comment_734ee247", columns={"story_id"}), @ORM\Index(name="comment_comment_cb902d83", columns={"owner_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ResminApiBundle\Repository\CommentCommentRepository")
  */
 class CommentComment
 {
@@ -26,7 +26,18 @@ class CommentComment
      *
      * @ORM\Column(name="story_id", type="integer", nullable=false)
      */
-    private $storyId;
+    private $story_id;
+
+
+    /**
+     * @var \StoryStory
+     *
+     * @ORM\ManyToOne(targetEntity="StoryStory", inversedBy="comments")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="story_id", referencedColumnName="id")
+     * })
+     */
+    private $story;
 
     /**
      * @var string
@@ -40,21 +51,31 @@ class CommentComment
      *
      * @ORM\Column(name="as_html", type="text", nullable=false)
      */
-    private $asHtml;
+    private $as_html;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="owner_id", type="integer", nullable=false)
      */
-    private $ownerId;
+    private $owner_id;
+
+    /**
+     * @var \AuthUser
+     *
+     * @ORM\ManyToOne(targetEntity="AuthUser")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * })
+     */
+    private $owner;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="posted_at", type="datetime", nullable=false)
      */
-    private $postedAt;
+    private $posted_at;
 
     /**
      * @var integer
@@ -62,7 +83,6 @@ class CommentComment
      * @ORM\Column(name="status", type="smallint", nullable=false)
      */
     private $status;
-
 
 
     /**
@@ -76,6 +96,16 @@ class CommentComment
     }
 
     /**
+     * Get storyId
+     *
+     * @return integer
+     */
+    public function getStoryId()
+    {
+        return $this->story_id;
+    }
+
+    /**
      * Set storyId
      *
      * @param integer $storyId
@@ -84,19 +114,19 @@ class CommentComment
      */
     public function setStoryId($storyId)
     {
-        $this->storyId = $storyId;
+        $this->story_id = $storyId;
 
         return $this;
     }
 
     /**
-     * Get storyId
+     * Get body
      *
-     * @return integer
+     * @return string
      */
-    public function getStoryId()
+    public function getBody()
     {
-        return $this->storyId;
+        return $this->body;
     }
 
     /**
@@ -114,13 +144,13 @@ class CommentComment
     }
 
     /**
-     * Get body
+     * Get asHtml
      *
      * @return string
      */
-    public function getBody()
+    public function getAsHtml()
     {
-        return $this->body;
+        return $this->as_html;
     }
 
     /**
@@ -132,31 +162,7 @@ class CommentComment
      */
     public function setAsHtml($asHtml)
     {
-        $this->asHtml = $asHtml;
-
-        return $this;
-    }
-
-    /**
-     * Get asHtml
-     *
-     * @return string
-     */
-    public function getAsHtml()
-    {
-        return $this->asHtml;
-    }
-
-    /**
-     * Set ownerId
-     *
-     * @param integer $ownerId
-     *
-     * @return CommentComment
-     */
-    public function setOwnerId($ownerId)
-    {
-        $this->ownerId = $ownerId;
+        $this->as_html = $asHtml;
 
         return $this;
     }
@@ -168,19 +174,19 @@ class CommentComment
      */
     public function getOwnerId()
     {
-        return $this->ownerId;
+        return $this->owner_id;
     }
 
     /**
-     * Set postedAt
+     * Set ownerId
      *
-     * @param \DateTime $postedAt
+     * @param integer $ownerId
      *
      * @return CommentComment
      */
-    public function setPostedAt($postedAt)
+    public function setOwnerId($ownerId)
     {
-        $this->postedAt = $postedAt;
+        $this->owner_id = $ownerId;
 
         return $this;
     }
@@ -192,7 +198,31 @@ class CommentComment
      */
     public function getPostedAt()
     {
-        return $this->postedAt;
+        return $this->posted_at;
+    }
+
+    /**
+     * Set postedAt
+     *
+     * @param \DateTime $postedAt
+     *
+     * @return CommentComment
+     */
+    public function setPostedAt($postedAt)
+    {
+        $this->posted_at = $postedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -210,12 +240,50 @@ class CommentComment
     }
 
     /**
-     * Get status
+     * Get story
      *
-     * @return integer
+     * @return \ResminApiBundle\Entity\StoryStory
      */
-    public function getStatus()
+    public function getStory()
     {
-        return $this->status;
+        return $this->story;
+    }
+
+    /**
+     * Set story
+     *
+     * @param \ResminApiBundle\Entity\StoryStory $story
+     *
+     * @return CommentComment
+     */
+    public function setStory(\ResminApiBundle\Entity\StoryStory $story = null)
+    {
+        $this->story = $story;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \ResminApiBundle\Entity\AuthUser
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \ResminApiBundle\Entity\AuthUser $owner
+     *
+     * @return CommentComment
+     */
+    public function setOwner(\ResminApiBundle\Entity\AuthUser $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 }

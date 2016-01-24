@@ -3,6 +3,14 @@ parameters:
   maximum_query_limit: 100
 
 services:
+  kernel.listener.access_denied_exception_listener:
+        class:     ResminApiBundle\Security\AccessDeniedListener
+        arguments: ['%twig.exception_listener.controller%', '@logger']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+            - { name: monolog.logger, channel: request }
+            - { name: kernel.event_subscriber }
+
 
   resmin_api.repository.story.story_repository:
         class: ResminApiBundle\Repository\StoryStoryRepository
@@ -11,8 +19,58 @@ services:
         arguments:
           - ResminApiBundle:StoryStory
 
+  resmin_api.repository.comment.comment_repository:
+        class: ResminApiBundle\Repository\CommentCommentRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+          - ResminApiBundle:CommentComment
 
+  resmin_api.repository.story.slot_repository:
+        class: ResminApiBundle\Repository\StorySlotRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+          - ResminApiBundle:StorySlot
+
+  resmin_api.repository.auth.user_repository:
+        class: ResminApiBundle\Repository\AuthUserRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+          - ResminApiBundle:AuthUser
+
+  resmin_api.repository.question.question_repository:
+        class: ResminApiBundle\Repository\QuestionQuestionRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+          - ResminApiBundle:QuestionQuestion
 
   resmin_api.service.story.story_service:
           class: ResminApiBundle\Service\StoryStoryService
-          arguments: ['@resmin_api.repository.story.story_repository','@doctrine.orm.entity_manager']
+          arguments: ['@resmin_api.repository.story.story_repository','@doctrine.orm.entity_manager','@resmin_api.repository.comment.comment_repository','@resmin_api.repository.story.slot_repository']
+
+  resmin_api.service.question.question_service:
+          class: ResminApiBundle\Service\QuestionQuestionService
+          arguments: ['@resmin_api.repository.question.question_repository','@doctrine.orm.entity_manager']
+
+  resmin_api.service.auth_service:
+    class: ResminApiBundle\Service\AuthService
+    arguments: ['@resmin_api.repository.auth.user_repository']
+
+  resmin_api.service.access_token_service:
+    class: ResminApiBundle\Service\AccessTokenService
+    arguments: ['@doctrine_cache.providers.redis_cache']
+
+  resmin_api.service.unittest_service:
+          class: ResminApiBundle\Service\UnitTestService
+          arguments: ['%unittest_username%','%unittest_password%','@resmin_api.service.auth_service','@resmin_api.service.access_token_service','@doctrine_cache.providers.redis_session']
+
+  resmin_api.security.accesstoken_userprovider:
+        class: ResminApiBundle\Security\AccessTokenUserProvider
+        arguments: ['@resmin_api.service.auth_service']
+
+  resmin_api.security.accesstoken_authenticator:
+    class: ResminApiBundle\Security\AccessTokenUserAuthenticator
+    arguments: ['@resmin_api.service.access_token_service']

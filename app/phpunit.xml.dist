@@ -8,7 +8,7 @@
          bootstrap="autoload.php"
 >
     <php>
-        <ini name="error_reporting" value="-16385"/>
+        <ini name="error_reporting" value="off"/>
     </php>
 
     <testsuites>

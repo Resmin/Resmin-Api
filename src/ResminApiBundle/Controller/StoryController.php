@@ -19,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class StoryController extends BaseController
 {
     /**
+     * Returns all stories with cover images. By default sorts id DESC. Mean is, last added comes first as you know
+     *
      * @Route("")
      * @Method("GET")
      * @ApiDoc(
@@ -65,10 +67,37 @@ class StoryController extends BaseController
 
 
         $service = $this->get('resmin_api.service.story.story_service');
-        $results = $service->getAllStories($page, $limit, $listing_type);
+        $results = $service->getAllStories($page, $limit, $listing_type, null);
         return [
             'meta' => $this->paginate($results['total'], $limit, $page),
             'data' => $results['data']
+        ];
+    }
+
+    /**
+     * Returns single story with comments and slots.
+     *
+     * @Route("/{id}", requirements={"id"="\d+"})
+     * @Method("GET")
+     * @ApiDoc(
+     *  section="Story",
+     *  description="Get single story",
+     *  requirements={
+     *      {"name"="id", "dataType"="integer", "requirement"="\d+"}
+     *  },
+     * )
+     */
+    public function getSingleStoryAction(Request $request, $id)
+    {
+        $service = $this->get('resmin_api.service.story.story_service');
+        $result = $service->getSingleStory($id);
+
+        if (!$result) {
+            throw $this->createNotFoundException();
+        }
+
+        return [
+            'data' => $result
         ];
     }
 }

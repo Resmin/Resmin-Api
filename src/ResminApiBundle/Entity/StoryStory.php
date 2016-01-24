@@ -156,7 +156,7 @@ class StoryStory
 
 
     /**
-     * @var \AuthUser
+     * @var \QuestionMeta
      *
      * @ORM\ManyToOne(targetEntity="QuestionQuestionmeta")
      * @ORM\JoinColumns({
@@ -166,6 +166,26 @@ class StoryStory
     private $question_meta;
 
 
+    /**
+     * @var CommentComment
+     *
+     * @ORM\OneToMany(targetEntity="CommentComment",mappedBy="story")
+     */
+    private $comments;
+    /**
+     * @var StorySlot
+     *
+     * @ORM\OneToMany(targetEntity="StorySlot",mappedBy="story")
+     */
+    private $slots;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -607,5 +627,97 @@ class StoryStory
         $this->question = $question;
 
         return $this;
+    }
+
+    /**
+     * Get questionMeta
+     *
+     * @return \ResminApiBundle\Entity\QuestionQuestionmeta
+     */
+    public function getQuestionMeta()
+    {
+        return $this->question_meta;
+    }
+
+    /**
+     * Set questionMeta
+     *
+     * @param \ResminApiBundle\Entity\QuestionQuestionmeta $questionMeta
+     *
+     * @return StoryStory
+     */
+    public function setQuestionMeta(\ResminApiBundle\Entity\QuestionQuestionmeta $questionMeta = null)
+    {
+        $this->question_meta = $questionMeta;
+
+        return $this;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \ResminApiBundle\Entity\CommentComment $comment
+     *
+     * @return StoryStory
+     */
+    public function addComment(\ResminApiBundle\Entity\CommentComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \ResminApiBundle\Entity\CommentComment $comment
+     */
+    public function removeComment(\ResminApiBundle\Entity\CommentComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add slot
+     *
+     * @param \ResminApiBundle\Entity\StorySlot $slot
+     *
+     * @return StoryStory
+     */
+    public function addSlot(\ResminApiBundle\Entity\StorySlot $slot)
+    {
+        $this->slots[] = $slot;
+
+        return $this;
+    }
+
+    /**
+     * Remove slot
+     *
+     * @param \ResminApiBundle\Entity\StorySlot $slot
+     */
+    public function removeSlot(\ResminApiBundle\Entity\StorySlot $slot)
+    {
+        $this->slots->removeElement($slot);
+    }
+
+    /**
+     * Get slots
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSlots()
+    {
+        return $this->slots;
     }
 }
