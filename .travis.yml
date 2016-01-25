@@ -5,8 +5,9 @@ php:
 
 env:
   - DB=mysql
-
-script: phpunit --configuration app/phpunit.xml.dist
+before_script:
+  - composer install --prefer-dist
+script: phpunit --c app/
 notifications:
   email:
     - guven@atbakan.com
