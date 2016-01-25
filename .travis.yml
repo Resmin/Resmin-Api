@@ -7,7 +7,7 @@ env:
   - DB=mysql
 before_script:
   - composer install --prefer-dist
-script: phpunit --c app/
+script: phpunit -c app/
 notifications:
   email:
     - guven@atbakan.com
