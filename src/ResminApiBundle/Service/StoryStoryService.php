@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityRepository;
 use ResminApiBundle\Repository\CommentCommentRepository;
 use ResminApiBundle\Repository\StorySlotRepository;
 use ResminApiBundle\Repository\StoryStoryRepository;
+use ResminApiBundle\Repository\ThumbnailKvstoreRepository;
 
 class StoryStoryService
 {
@@ -34,6 +35,10 @@ class StoryStoryService
      * @var StorySlotRepository
      */
     private $storySlotRepository;
+    /**
+     * @var ThumbnailKvStoreRepository
+     */
+    private $thumbnailKvstoreReporistory;
 
     /**
      * StoryStoryService constructor.
@@ -41,13 +46,21 @@ class StoryStoryService
      * @param EntityManager $entityManager
      * @param EntityRepository $commentCommentRepository
      * @param EntityRepository $storySlotRepository
+     * @param EntityRepository $thumbnailKvstoreReporistory
      */
-    public function __construct(EntityRepository $storyStoryRepository, EntityManager $entityManager, EntityRepository $commentCommentRepository, EntityRepository $storySlotRepository)
+    public function __construct(
+        EntityRepository $storyStoryRepository,
+        EntityManager $entityManager,
+        EntityRepository $commentCommentRepository,
+        EntityRepository $storySlotRepository,
+        EntityRepository $thumbnailKvstoreReporistory
+    )
     {
         $this->storyStoryRepository = $storyStoryRepository;
         $this->entityManager = $entityManager;
         $this->commentCommentRepository = $commentCommentRepository;
         $this->storySlotRepository = $storySlotRepository;
+        $this->thumbnailKvstoreReporistory = $thumbnailKvstoreReporistory;
     }
 
     public function getAllStories($page, $limit, $listing_type, $question_meta_id)
@@ -80,6 +93,9 @@ class StoryStoryService
 
         $result['cover_img'] = json_decode($result['cover_img']);
         $result['comment_count'] = (int)($result['comment_count']);
+        foreach ($result['slots'] as $k => $v) {
+            $result['slots'][$k]['image']['image'] = $this->thumbnailKvstoreReporistory->findFromValueWithLike($v['image']['image']);
+        }
 
         return $result;
     }

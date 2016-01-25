@@ -46,10 +46,16 @@ services:
         factory_method: getRepository
         arguments:
           - ResminApiBundle:QuestionQuestion
+  resmin_api.repository.thumbnail_kvstore_repository:
+        class: ResminApiBundle\Repository\ThumbnailKvstoreRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+          - ResminApiBundle:ThumbnailKvstore
 
   resmin_api.service.story.story_service:
           class: ResminApiBundle\Service\StoryStoryService
-          arguments: ['@resmin_api.repository.story.story_repository','@doctrine.orm.entity_manager','@resmin_api.repository.comment.comment_repository','@resmin_api.repository.story.slot_repository']
+          arguments: ['@resmin_api.repository.story.story_repository','@doctrine.orm.entity_manager','@resmin_api.repository.comment.comment_repository','@resmin_api.repository.story.slot_repository','@resmin_api.repository.thumbnail_kvstore_repository']
 
   resmin_api.service.question.question_service:
           class: ResminApiBundle\Service\QuestionQuestionService

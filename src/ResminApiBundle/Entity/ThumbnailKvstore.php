@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ThumbnailKvstore
  *
  * @ORM\Table(name="thumbnail_kvstore")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ResminApiBundle\Repository\ThumbnailKvstoreRepository")
  */
 class ThumbnailKvstore
 {
@@ -41,6 +41,16 @@ class ThumbnailKvstore
     }
 
     /**
+     * Get value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
      * Set value
      *
      * @param string $value
@@ -52,15 +62,5 @@ class ThumbnailKvstore
         $this->value = $value;
 
         return $this;
-    }
-
-    /**
-     * Get value
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 }
