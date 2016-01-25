@@ -5,6 +5,8 @@ php:
 
 env:
   - DB=mysql
+services:
+  - redis-server
 before_script:
   - composer install --prefer-dist
 script: phpunit -c app/
